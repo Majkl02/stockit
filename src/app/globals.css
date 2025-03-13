@@ -1,7 +1,24 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --primary-color: #00a9e0;
+  --secondary-color: #003d62;
+  --accent-color: #f4f4f4;
+  --highlight-color: #00738c;
+}
+
+.bg-primary {
+  background-color: var(--accent-color);
+}
+
+header {
+  background-color: #003d52;
+}
+
+nav {
+  background-color: var(--secondary-color);
+}
+
+nav li:hover {
+  background-color: var(--highlight-color);
 }
