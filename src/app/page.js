@@ -1,5 +1,4 @@
 'use client'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function Dashboard() {
@@ -27,7 +26,7 @@ export default function Dashboard() {
           <span className='text-2xl'>{time.toLocaleString()}</span>
         </div>
       </div>
-      <div className='m-10 rounded-md bg-gray-300'>
+      <div className='m-10 rounded-md bg-blue-500 shadow-2xl shadow-blue-400'>
         <h2 className='p-4 text-3xl'>Current statistics:</h2>
         <p className='p-4 text-2xl'>Number of groups: 8</p>
         <p className='p-4 text-2xl'>Number of rooms: 25</p>
