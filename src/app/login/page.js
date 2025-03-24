@@ -1,10 +1,6 @@
-'use client'
-
 import Image from 'next/image'
 
-export default function LoginForm() {
-  function handleSubmit() {}
-
+export default function Login() {
   return (
     <div className='flex min-h-screen items-center justify-center bg-gray-50 p-4'>
       <div
@@ -22,7 +18,7 @@ export default function LoginForm() {
           </p>
         </div>
 
-        <form className='space-y-4' onSubmit={handleSubmit}>
+        <form className='space-y-4'>
           <div>
             <label
               htmlFor='email'

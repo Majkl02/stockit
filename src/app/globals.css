@@ -20,13 +20,9 @@
 }
 
 header {
-  background-color: #003d52;
+  background-color: var(--secondary-color);
 }
 
 nav {
   background-color: var(--secondary-color);
-}
-
-nav li:hover {
-  background-color: var(--highlight-color);
 }
