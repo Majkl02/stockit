@@ -1,15 +1,21 @@
 'use client'
 
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 export default function BackButton() {
   const router = useRouter()
   return (
     <div
-      className='h-10 w-10 rounded-2xl bg-blue-500'
+      className='flex h-10 w-20 items-center justify-center rounded-2xl bg-blue-500'
       onClick={() => router.back()}
     >
-      <span className='flex h-10 w-10 items-center justify-center'>&larr;</span>
+      <Image
+        src='/arrow-back-outline.svg'
+        alt='arrow back'
+        width={30}
+        height={30}
+      />
     </div>
   )
 }

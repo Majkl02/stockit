@@ -9,7 +9,7 @@ export default function Navigation() {
           { name: 'Dashboard', path: '/', iconPath: '/home-outline.svg' },
           {
             name: 'Inventory',
-            path: '/inventory/organizations',
+            path: '/inventory/items',
             iconPath: '/cube-outline.svg'
           },
           {

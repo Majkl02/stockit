@@ -10,13 +10,13 @@ export default function Item() {
   return (
     <div
       onClick={() => router.push('/inventory/organizations/rooms/items')}
-      className='flex h-50 w-60 flex-col rounded-2xl bg-blue-500 shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 active:translate-y-0'
+      className='flex h-50 w-40 flex-col rounded-2xl bg-blue-500 shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 active:translate-y-0'
     >
       <Image
         src='/item-placeholder-img.jpg'
         alt='item-placeholder-img'
         width={240}
-        height={60}
+        height={0}
         className='h-30 w-60 rounded-t-2xl'
       />
       <div className='p-2'>
