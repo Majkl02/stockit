@@ -1,7 +1,22 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useGlobalContext } from '../context/GlobalContext'
 
-export default function HeaferUser() {
+export default function HeaderUser() {
+  const router = useRouter()
+  const { setUser } = useGlobalContext()
+
+  function handleLogout(e) {
+    e.preventDefault()
+    document.cookie = 'access_token=; Max-Age=0; path=/'
+    document.cookie = 'refresh_token=; Max-Age=0; path=/'
+    setUser(null)
+    router.push('/login')
+  }
+
   return (
     <div className='flex rounded-md bg-sky-700'>
       <Link
@@ -23,6 +38,7 @@ export default function HeaferUser() {
         width={30}
         height={30}
         className='cursor-pointer rounded-r-md pr-1 pl-1 hover:bg-sky-600'
+        onClick={handleLogout}
       />
     </div>
   )

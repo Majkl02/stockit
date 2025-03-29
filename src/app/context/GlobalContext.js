@@ -5,12 +5,10 @@ import { createContext, useContext, useState } from 'react'
 const GlobalContext = createContext()
 
 export const GlobalProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  const toggleLogin = () => setIsLoggedIn(prev => !prev)
+  const [user, setUser] = useState(null)
 
   return (
-    <GlobalContext.Provider value={{ isLoggedIn, setIsLoggedIn, toggleLogin }}>
+    <GlobalContext.Provider value={{ user, setUser }}>
       {children}
     </GlobalContext.Provider>
   )
