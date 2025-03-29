@@ -3,14 +3,19 @@
 import { useEffect, useState } from 'react'
 
 export default function DashboardDateTime() {
-  const [dateTime, setDateTime] = useState(new Date())
+  const [dateTime, setDateTime] = useState(null)
 
   useEffect(() => {
+    setDateTime(new Date()) // Set after mount to avoid hydration mismatch
+
     const timer = setInterval(() => {
       setDateTime(new Date())
     }, 1000)
+
     return () => clearInterval(timer)
   }, [])
+
+  if (!dateTime) return null // Or show a loading placeholder
 
   const formattedDate = dateTime.toLocaleDateString('sk-SK', {
     weekday: 'long',

@@ -1,4 +1,4 @@
-import DashboardDateTime from './components/DashboardDateTime'
+import DashboardDateTime from '../components/DashboardDateTime'
 
 export default function Dashboard() {
   return (
