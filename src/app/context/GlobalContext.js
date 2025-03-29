@@ -1,11 +1,18 @@
 'use client'
 
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 const GlobalContext = createContext()
 
 export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [])
 
   return (
     <GlobalContext.Provider value={{ user, setUser }}>

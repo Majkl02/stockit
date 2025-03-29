@@ -3,10 +3,17 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useGlobalContext } from '../context/GlobalContext'
+import { useEffect } from 'react'
 
 export default function LoginForm() {
   const router = useRouter()
   const { user, setUser } = useGlobalContext()
+
+  useEffect(() => {
+    if (user) {
+      console.log('User has been set:', user)
+    }
+  }, [user])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -32,11 +39,11 @@ export default function LoginForm() {
 
       const data = await res.json()
 
-      setUser(data.user_info)
       document.cookie = `access_token=${data.access_token}; path=/; max-age=3600`
       document.cookie = `refresh_token=${data.refresh_token}; path=/; max-age=604800`
+      localStorage.setItem('user', JSON.stringify(data.user_info))
       console.log(data)
-      console.log(user)
+
       router.push('/')
     } catch (err) {
       console.error('Login error:', err)

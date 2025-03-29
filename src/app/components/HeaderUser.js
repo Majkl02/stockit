@@ -7,7 +7,7 @@ import { useGlobalContext } from '../context/GlobalContext'
 
 export default function HeaderUser() {
   const router = useRouter()
-  const { setUser } = useGlobalContext()
+  const { user, setUser } = useGlobalContext()
 
   function handleLogout(e) {
     e.preventDefault()
@@ -16,6 +16,8 @@ export default function HeaderUser() {
     setUser(null)
     router.push('/login')
   }
+
+  if (!user) return null
 
   return (
     <div className='flex rounded-md bg-sky-700'>
@@ -29,7 +31,7 @@ export default function HeaderUser() {
           width={30}
           height={30}
         />
-        <span className='px-2 py-1'>Michal Januska</span>
+        <span className='px-2 py-1'>{`${user.first_name} ${user.last_name}`}</span>
       </Link>
 
       <Image

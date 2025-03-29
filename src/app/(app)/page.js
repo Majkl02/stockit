@@ -1,13 +1,11 @@
 import DashboardDateTime from '../components/DashboardDateTime'
+import DashboardHeader from '../components/DashboardHeader'
 
 export default function Dashboard() {
   return (
     <>
       <div className='flex justify-between p-10'>
-        <div>
-          <h1 className='text-7xl font-bold'>Welcome, Michal!</h1>
-          <p className='text-2xl font-semibold'>Role: Superadmin</p>
-        </div>
+        <DashboardHeader />
         <div>
           <DashboardDateTime />
         </div>
