@@ -13,6 +13,7 @@ export default function HeaderUser() {
     e.preventDefault()
     document.cookie = 'access_token=; Max-Age=0; path=/'
     document.cookie = 'refresh_token=; Max-Age=0; path=/'
+    localStorage.removeItem('user')
     setUser(null)
     router.push('/login')
   }

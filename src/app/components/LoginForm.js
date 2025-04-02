@@ -3,23 +3,21 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useGlobalContext } from '../context/GlobalContext'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function LoginForm() {
   const router = useRouter()
   const { user, setUser } = useGlobalContext()
-
-  useEffect(() => {
-    if (user) {
-      console.log('User has been set:', user)
-    }
-  }, [user])
+  const [invalidCreds, setInvalidCreds] = useState(false)
+  const [badRequest, setBadRequest] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
 
     const email = e.target.email.value
     const password = e.target.password.value
+    setInvalidCreds(false)
+    setBadRequest(false)
 
     // console.log(email, password)
     try {
@@ -31,14 +29,21 @@ export default function LoginForm() {
         body: JSON.stringify({ email, password })
       })
 
-      // console.log('Response:', res)
+      console.log('Response:', res)
 
-      if (!res.ok) {
-        throw new Error('Login failed')
+      if (res.status === 401) {
+        setInvalidCreds(true)
+        return
+      }
+
+      if (res.status === 400) {
+        setBadRequest(true)
+        return
       }
 
       const data = await res.json()
 
+      setUser(data.user_info)
       document.cookie = `access_token=${data.access_token}; path=/; max-age=3600`
       document.cookie = `refresh_token=${data.refresh_token}; path=/; max-age=604800`
       localStorage.setItem('user', JSON.stringify(data.user_info))
@@ -98,7 +103,14 @@ export default function LoginForm() {
             required
           />
         </div>
-
+        {invalidCreds && (
+          <p className='text-center text-red-400'>Invalid email or password!</p>
+        )}
+        {badRequest && (
+          <p className='text-center text-red-400'>
+            Bad request! Can not perform login action.
+          </p>
+        )}
         <button
           type='submit'
           className='btn-login w-full rounded-md px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none'

@@ -1,3 +1,3 @@
 export default function Profile() {
-  return <p>Profile</p>
+  return <h1 className='text-center text-7xl font-bold'>Profile</h1>
 }

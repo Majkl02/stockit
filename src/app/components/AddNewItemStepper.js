@@ -65,7 +65,6 @@ export default function Stepper({
           </React.Fragment>
         ))}
       </div>
-      {children}
       {/* Navigation Buttons */}
       <div className='mt-8 flex justify-between'>
         <button
@@ -84,6 +83,7 @@ export default function Stepper({
           Next
         </button>
       </div>
+      {children}
     </div>
   )
 }

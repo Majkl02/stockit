@@ -1,3 +1,3 @@
 export default function Settings() {
-  return <p>Settings</p>
+  return <h1 className='text-center text-7xl font-bold'>Settings</h1>
 }

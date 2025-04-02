@@ -8,11 +8,14 @@ export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+    console.log('TEST')
+    if (!user) {
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        setUser(JSON.parse(storedUser))
+      }
     }
-  }, [])
+  }, [user])
 
   return (
     <GlobalContext.Provider value={{ user, setUser }}>
