@@ -10,15 +10,25 @@ export default function ItemPagination() {
       </button>
 
       {/* Page numbers */}
-      <button className='rounded-md px-3 py-1 hover:bg-gray-100'>1</button>
+      <button className='cursor-pointer rounded-md px-3 py-1 hover:bg-gray-100'>
+        1
+      </button>
 
-      <button className='rounded-md bg-sky-600 px-3 py-1 text-white'>2</button>
+      <button className='cursor-pointer rounded-md bg-sky-600 px-3 py-1 text-white'>
+        2
+      </button>
 
-      <button className='rounded-md px-3 py-1 hover:bg-gray-100'>3</button>
+      <button className='cursor-pointer rounded-md px-3 py-1 hover:bg-gray-100'>
+        3
+      </button>
 
-      <button className='rounded-md px-3 py-1 hover:bg-gray-100'>4</button>
+      <button className='cursor-pointer rounded-md px-3 py-1 hover:bg-gray-100'>
+        4
+      </button>
 
-      <button className='rounded-md px-3 py-1 hover:bg-gray-100'>5</button>
+      <button className='cursor-pointer rounded-md px-3 py-1 hover:bg-gray-100'>
+        5
+      </button>
 
       <span className='px-2'>...</span>
 

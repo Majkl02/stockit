@@ -1,10 +1,10 @@
 'use client'
 
-import AddNewItemForm from '@/app/components/AddNewItemForm'
-import AddNewItemLocationForm from '@/app/components/AddNewItemLocationForm'
-import AddNewItemUploadPhotoForm from '@/app/components/AddNewItemUploadPhotoForm'
-import AddNewItemReviewForm from '@/app/components/AddNewItemReviewForm'
-import AddNewItemStepper from '@/app/components/AddNewItemStepper'
+import AddNewItemForm from '@/app/_components/AddNewItemForm'
+import AddNewItemLocationForm from '@/app/_components/AddNewItemLocationForm'
+import AddNewItemUploadPhotoForm from '@/app/_components/AddNewItemUploadPhotoForm'
+import AddNewItemReviewForm from '@/app/_components/AddNewItemReviewForm'
+import AddNewItemStepper from '@/app/_components/AddNewItemStepper'
 import { useState } from 'react'
 
 export default function AddNewItem() {

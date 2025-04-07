@@ -1,7 +1,7 @@
 import './../globals.css'
-import AddNewItemButton from '../components/AddNewItemButton'
-import Navigation from '../components/Navigation'
-import Header from '../components/Header'
+import AddNewItemButton from '../_components/AddNewItemButton'
+import Navigation from '../_components/Navigation'
+import Header from '../_components/Header'
 
 export default function MainLayout({ children }) {
   return (

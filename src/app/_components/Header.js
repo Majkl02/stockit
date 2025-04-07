@@ -11,7 +11,7 @@ export default function Header() {
     <header className='flex h-30 max-w-screen items-center justify-between bg-gray-800 px-6 py-4 text-white'>
       <div className='flex items-center gap-5 text-5xl font-bold'>
         <Image src='/Logo.png' alt='StockIt Logo' width={60} height={0} />
-        <h1>StockIt</h1>
+        <h1>StockIT</h1>
       </div>
       {user && <HeaderUser />}
     </header>

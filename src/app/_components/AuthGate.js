@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useGlobalContext } from './../context/GlobalContext'
+import { useGlobalContext } from '../context/GlobalContext'
 
 export default function AuthGate({ children }) {
   const { isLoggedIn } = useGlobalContext()

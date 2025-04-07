@@ -1,5 +1,5 @@
-import DashboardDateTime from '../components/DashboardDateTime'
-import DashboardHeader from '../components/DashboardHeader'
+import DashboardDateTime from '../_components/DashboardDateTime'
+import DashboardHeader from '../_components/DashboardHeader'
 
 export default function Dashboard() {
   return (
