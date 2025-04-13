@@ -5,7 +5,7 @@ import AdvancedFilters from './AdvancedFilters'
 import SearchField from './SearchField'
 import ToggleAdvancedFiltersButton from './ToggleAdvancedFiltersButton'
 
-export default function SearchForm() {
+export default function SearchForm({ organizations, locations }) {
   const [filtersOpen, setFiltersOpen] = useState(false)
 
   function handleFilters() {
@@ -18,7 +18,11 @@ export default function SearchForm() {
         {/* Search field and button */}
         <SearchField />
         {/* Filter dropdowns */}
-        <AdvancedFilters filtersOpen={filtersOpen} />
+        <AdvancedFilters
+          organizations={organizations}
+          locations={locations}
+          filtersOpen={filtersOpen}
+        />
         <ToggleAdvancedFiltersButton
           handleFilters={handleFilters}
           filtersOpen={filtersOpen}

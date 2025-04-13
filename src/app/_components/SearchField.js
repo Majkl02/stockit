@@ -10,7 +10,7 @@ export default function SearchField() {
       </div>
       <button
         type='submit'
-        className='flex items-center justify-center rounded-r-md bg-sky-900 px-4 py-2 text-white hover:bg-sky-700'
+        className='flex cursor-pointer items-center justify-center rounded-r-md bg-sky-900 px-4 py-2 text-white hover:bg-sky-700'
       >
         <span className='ml-2 hidden sm:inline'>Search</span>
       </button>

@@ -1,6 +1,6 @@
-import Item from '@/app/_components/Item'
-import ItemPagination from '@/app/_components/ItemPagination'
+import ItemSection from '@/app/_components/ItemSection'
 import SearchForm from '@/app/_components/SearchForm'
+import { getItems, getLocations, getOrganizations } from '@/app/_lib/data'
 
 const items = [
   { id: 1, key: 1 },
@@ -20,22 +20,54 @@ const items = [
   { id: 15, key: 15 }
 ]
 
-export default function Items() {
+export default async function Items() {
+  const [items, organizations, locations] = await Promise.all([
+    getItems(),
+    getOrganizations(),
+    getLocations()
+  ])
+
+  const orgMap = Object.fromEntries(
+    organizations.map(org => [org.organization_id, org.organization_name])
+  )
+
+  console.log('Organizations map:', orgMap)
+
+  const locMap = Object.fromEntries(
+    locations.map(loc => [loc.location_id, loc.location_name])
+  )
+
+  console.log('Locations map:', locMap)
+
+  const itemList = items.map(item => {
+    return {
+      id: item.item_id,
+      name: item.item_name,
+      organization: orgMap[item.organization_id],
+      location: locMap[item.location_id],
+      imageUrl: item.imageUrl,
+      status: item.status
+    }
+  })
+
   return (
     <>
-      <div className='mx-4 my-4 rounded-2xl bg-gray-200'>
+      <div className='mx-4 my-4 rounded-2xl bg-gray-200 shadow-xl'>
         <h1 className='px-4 py-2 text-center text-6xl font-bold text-gray-700'>
           Inventory
         </h1>
-        <SearchForm />
+        <SearchForm
+          organizations={organizations}
+          locations={locations}
+          // status={}
+        />
       </div>
-      <div className='grid grid-cols-1 gap-4 p-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
-        {/* Add as many <Item />s as you want */}
-        {items.map(item => (
-          <Item id={item.id} key={item.key} />
-        ))}
-      </div>
-      <ItemPagination />
+      {!items && (
+        <div className='mt-100 text-center text-4xl font-bold text-gray-500'>
+          No items found
+        </div>
+      )}
+      {items && <ItemSection items={itemList} />}
     </>
   )
 }
