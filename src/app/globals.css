@@ -11,14 +11,6 @@
   background-color: var(--accent-color);
 }
 
-.btn-login {
-  background-color: var(--primary-color);
-}
-
-.btn-login:hover {
-  background-color: var(--highlight-color);
-}
-
 header {
   background-color: var(--secondary-color);
 }

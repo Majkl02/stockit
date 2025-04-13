@@ -4,8 +4,8 @@ const nextConfig = {
     // FIX na CORS problem pri volani back-endu
     return [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:8888/v1/api/:path*'
+        source: '/api/v1/:path*',
+        destination: 'http://localhost:8888/api/v1/:path*'
       }
     ]
   }
