@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation'
 export default function BackButton() {
   const router = useRouter()
   return (
-    <div
-      className='flex h-10 w-20 items-center justify-center rounded-2xl bg-blue-500'
+    <button
+      className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-sky-600 hover:bg-sky-700'
       onClick={() => router.back()}
     >
       <Image
@@ -16,6 +16,6 @@ export default function BackButton() {
         width={30}
         height={30}
       />
-    </div>
+    </button>
   )
 }
