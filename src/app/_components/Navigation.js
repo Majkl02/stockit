@@ -20,7 +20,11 @@ export default function Navigation() {
       iconPath: '/add-circle-outline.svg'
     },
     { name: 'Profile', path: '/profile', iconPath: '/person-outline.svg' },
-    { name: 'Settings', path: '/settings', iconPath: '/settings-outline.svg' }
+    {
+      name: 'Management',
+      path: '/management',
+      iconPath: '/settings-outline.svg'
+    }
   ]
 
   return (

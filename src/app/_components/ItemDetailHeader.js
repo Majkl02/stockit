@@ -9,7 +9,7 @@ export default function ItemDetailHeader({ title }) {
   const [isVisible, setIsVisible] = useState(false)
 
   return (
-    <div className='mx-auto mt-20 max-w-6xl rounded-lg border-2 border-gray-200 bg-white p-10 shadow-md'>
+    <div className='mx-auto mt-10 max-w-6xl rounded-lg border-2 border-gray-200 bg-white p-10 shadow-md'>
       <div className='flex items-center justify-between'>
         <BackButton />
         <h1 className='text-3xl font-bold text-gray-700'>{title}</h1>

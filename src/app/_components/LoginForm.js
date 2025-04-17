@@ -2,15 +2,22 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useGlobalContext } from '../context/GlobalContext'
+import { useAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
 import { proceedLogin } from '../_lib/data-services'
+import pass_eye_closed from '/public/pass-eye-closed.svg'
+import pass_eye from '/public/pass-eye.svg'
 
 export default function LoginForm() {
   const router = useRouter()
-  const { user, setUser } = useGlobalContext()
+  const { user, setUser } = useAuth()
   const [invalidCreds, setInvalidCreds] = useState(false)
   const [badRequest, setBadRequest] = useState(false)
+  const [passwordVisible, setPasswordVisible] = useState(false)
+
+  const handleTogglePassword = () => {
+    setPasswordVisible(!passwordVisible)
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -80,12 +87,25 @@ export default function LoginForm() {
           >
             Password
           </label>
-          <input
-            id='password'
-            type='password'
-            className='w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none'
-            required
-          />
+          <div className='relative'>
+            <input
+              id='password'
+              type={passwordVisible ? 'text' : 'password'}
+              className='w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none'
+              required
+              placeholder='********'
+            />
+            <button
+              type='button'
+              className='absolute top-3 right-4 flex cursor-pointer items-center'
+              onClick={handleTogglePassword}
+            >
+              <Image
+                src={passwordVisible ? pass_eye : pass_eye_closed}
+                alt='StockIt Logo'
+              />
+            </button>
+          </div>
         </div>
         {invalidCreds && (
           <p className='text-center text-red-400'>Invalid email or password!</p>
@@ -97,7 +117,7 @@ export default function LoginForm() {
         )}
         <button
           type='submit'
-          className='btn-login w-full rounded-md bg-[#00a9e0] px-4 py-2 text-center text-sm font-medium text-white hover:bg-sky-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none'
+          className='btn-login w-full cursor-pointer rounded-md bg-[#00a9e0] px-4 py-2 text-center text-sm font-medium text-white hover:bg-sky-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none'
         >
           Login
         </button>

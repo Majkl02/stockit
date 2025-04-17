@@ -153,3 +153,28 @@ export async function getLocationById(id) {
     console.error('Fetch error:', err)
   }
 }
+
+/* GET ALL CATEGORIES*/
+export async function getCategories() {
+  try {
+    const cookieStore = cookies()
+    const token = cookieStore.get('access_token')?.value
+    const res = await fetch('http://localhost:8888/api/v1/categories', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const data = await res.json()
+    // console.log('Fetched categories:', data)
+    return data
+  } catch (err) {
+    console.error('Fetch error:', err)
+  }
+}

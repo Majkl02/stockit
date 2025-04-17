@@ -33,3 +33,21 @@ export async function proceedLogin(
     alert('There was an error during login process :(')
   }
 }
+
+export async function refreshAccessToken(token) {
+  try {
+    const res = await fetch('/api/v1/auth/refresh', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) return null
+    return await res.json()
+  } catch (err) {
+    console.error('Token refresh failed', err)
+    return null
+  }
+}

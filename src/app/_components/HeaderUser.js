@@ -3,16 +3,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useGlobalContext } from '../context/GlobalContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function HeaderUser() {
   const router = useRouter()
-  const { user, setUser } = useGlobalContext()
+  const { user, setUser } = useAuth()
 
   function handleLogout(e) {
     e.preventDefault()
-    document.cookie = 'access_token=; Max-Age=0; path=/'
-    document.cookie = 'refresh_token=; Max-Age=0; path=/'
+    document.cookie = 'access_token=; Max-Age=0;'
+    document.cookie = 'refresh_token=; Max-Age=0;'
     localStorage.removeItem('user')
     setUser(null)
     router.push('/login')
@@ -21,7 +21,7 @@ export default function HeaderUser() {
   if (!user) return null
 
   return (
-    <div className='flex rounded-md bg-sky-700'>
+    <div className='flex rounded-md border-2 border-sky-500 bg-sky-700 shadow-md shadow-sky-700'>
       <Link
         href='/profile'
         className='flex rounded-l-md px-4 py-2 hover:bg-sky-600'

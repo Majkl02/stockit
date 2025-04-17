@@ -31,7 +31,7 @@ export default function DashboardDateTime() {
   })
 
   return (
-    <div className='inline-flex flex-col rounded-md bg-gray-100 px-3 py-2 text-center shadow-sm'>
+    <div className='inline-flex flex-col rounded-md bg-gray-100 px-3 py-2 text-center shadow-md shadow-gray-400'>
       <div className='text-lg font-medium'>{formattedTime}</div>
       <div className='text-sm text-gray-600'>{formattedDate}</div>
     </div>

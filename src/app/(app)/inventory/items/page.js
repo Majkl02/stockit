@@ -52,7 +52,7 @@ export default async function Items() {
 
   return (
     <>
-      <div className='mx-4 my-4 rounded-2xl bg-gray-200 shadow-xl'>
+      <div className='mx-4 my-4 rounded-2xl bg-gray-100 shadow-md shadow-gray-400'>
         <h1 className='px-4 py-2 text-center text-6xl font-bold text-gray-700'>
           Inventory
         </h1>

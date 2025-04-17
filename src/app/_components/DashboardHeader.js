@@ -1,9 +1,9 @@
 'use client'
 
-import { useGlobalContext } from '../context/GlobalContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function DashboardHeader() {
-  const { user } = useGlobalContext()
+  const { user } = useAuth()
 
   return (
     <div>

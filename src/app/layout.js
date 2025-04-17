@@ -1,4 +1,5 @@
 import { GlobalProvider } from './context/GlobalContext'
+import { AuthProvider } from './context/AuthContext'
 
 import { Inter } from 'next/font/google'
 
@@ -16,7 +17,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={`${inter.className} flex h-screen flex-col`}>
-        <GlobalProvider>{children}</GlobalProvider>
+        <AuthProvider>
+          <GlobalProvider>{children}</GlobalProvider>
+        </AuthProvider>
       </body>
     </html>
   )

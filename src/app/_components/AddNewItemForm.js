@@ -1,26 +1,43 @@
-'use client'
-
 export default function AddNewItemForm() {
   return (
-    <div className='rounded-md border p-4'>
-      <h2 className='mb-4 text-xl font-bold'>Fill out item form</h2>
+    <div className='rounded-md border-2 p-4'>
+      <h2 className='mb-4 text-xl font-bold'>Item form</h2>
       <form onSubmit={e => e.preventDefault()}>
         {/* Filter dropdowns */}
         <div className='flex flex-col gap-4'>
           <div>
             <label
+              htmlFor='categories'
+              className='mb-1 block text-sm font-medium text-gray-700'
+            >
+              Location
+            </label>
+            <select
+              type='input'
+              id='categories'
+              name='categories'
+              required
+              className='w-full rounded-md border border-gray-300 px-3 py-2'
+            >
+              <option value='clothing'>Room 1</option>
+              <option value='electronics'>Room 2</option>
+              <option value='furniture'>Room 3</option>
+            </select>
+          </div>
+          <div>
+            <label
               htmlFor='label'
               className='mb-1 block text-sm font-medium text-gray-700'
             >
-              Label
+              Item Name
             </label>
             <input
               type='text'
-              id='label'
-              name='label'
+              id='name'
+              name='name'
               required
               className='w-full rounded-md border border-gray-300 px-3 py-2'
-              placeholder='Item Label'
+              placeholder='Item Name'
             ></input>
           </div>
           <div>
@@ -40,38 +57,65 @@ export default function AddNewItemForm() {
               placeholder='Item description'
             ></textarea>
           </div>
+
           <div>
             <label
-              htmlFor='serialnumber'
+              htmlFor='categories'
               className='mb-1 block text-sm font-medium text-gray-700'
             >
-              Serial number
+              Categories
             </label>
-            <input
-              type='text'
-              id='serialnumber'
-              name='serialnumber'
-              required
-              className='w-full rounded-md border border-gray-300 px-3 py-2'
-              placeholder='Serial number'
-            ></input>
+            <div className='flex items-center gap-4'>
+              <select
+                type='input'
+                id='categories'
+                name='categories'
+                required
+                className='w-full rounded-md border border-gray-300 px-3 py-2'
+              >
+                <option value='clothing'>Computer</option>
+                <option value='electronics'>Headphones</option>
+                <option value='furniture'>Mobile</option>
+              </select>
+              <div className='w-30 cursor-pointer rounded-2xl bg-gray-200 p-2 text-center hover:bg-gray-300'>
+                Add
+              </div>
+            </div>
+            <div className='mt-5 flex gap-2'>
+              <span className='rounded-2xl bg-gray-400 p-2 text-center hover:bg-gray-300'>
+                Computer
+              </span>
+              <span className='rounded-2xl bg-gray-400 p-2 text-center hover:bg-gray-300'>
+                Headphones
+              </span>
+              <span className='rounded-2xl bg-gray-400 p-2 text-center hover:bg-gray-300'>
+                Mobile
+              </span>
+            </div>
           </div>
           <div>
             <label
-              htmlFor='quantity'
+              htmlFor='attributes'
               className='mb-1 block text-sm font-medium text-gray-700'
             >
-              Quantity
+              Attributes
             </label>
-            <input
-              type='number'
-              id='quantity'
-              name='quantity'
-              required
-              className='w-full rounded-md border border-gray-300 px-3 py-2'
-              min={1}
-              max={100}
-            ></input>
+            <div className='flex items-center gap-4'>
+              <select
+                type='input'
+                id='attributes'
+                name='attributes'
+                required
+                className='w-full rounded-md border border-gray-300 px-3 py-2'
+              >
+                <option value='clothing'>Weight</option>
+                <option value='electronics'>Age</option>
+                <option value='furniture'>Color</option>
+              </select>
+              <div className='w-30 cursor-pointer rounded-2xl bg-gray-200 p-2 text-center hover:bg-gray-300'>
+                Add
+              </div>
+            </div>
           </div>
         </div>
       </form>

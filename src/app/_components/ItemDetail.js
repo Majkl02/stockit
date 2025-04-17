@@ -5,41 +5,23 @@ import ItemCategory from './ItemCategory'
 
 import { useState } from 'react'
 
-const product = {
-  id: '1',
-  name: 'Premium Leather Backpack',
-  description:
-    'A high-quality leather backpack perfect for daily use or travel. Features multiple compartments, padded laptop sleeve, and adjustable shoulder straps for maximum comfort. Made from genuine full-grain leather that develops a beautiful patina over time.',
-  mainImage: it_tech,
-  images: [it_tech, it_tech, it_tech, it_tech],
-  categories: [
-    <ItemCategory key='1' />,
-    <ItemCategory key='2' />,
-    <ItemCategory key='3' />,
-    <ItemCategory key='4' />
-  ],
-  attributes: [
-    { name: 'Material', value: 'Full-grain leather' },
-    { name: 'Dimensions', value: '18" x 12" x 6"' },
-    { name: 'Weight', value: '2.5 lbs' },
-    { name: 'Color', value: 'Chestnut Brown' },
-    { name: 'Capacity', value: '25L' },
-    { name: 'Warranty', value: 'Lifetime' }
-  ]
-}
+const images = [it_tech, it_tech, it_tech, it_tech]
+const mainImage = it_tech
 
 export default function ItemDetail({ itemObject }) {
-  const [selectedImage, setSelectedImage] = useState(product.mainImage)
+  const [selectedImage, setSelectedImage] = useState(mainImage)
+
+  console.log('itemObject', itemObject)
 
   return (
-    <div className='mx-auto mt-5 max-w-6xl rounded-lg border-2 border-gray-200 bg-white p-10 shadow-md'>
+    <div className='mx-auto mt-5 mb-10 max-w-6xl rounded-lg border-2 border-gray-200 bg-white p-10 shadow-md'>
       <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
         {/* Image Gallery */}
         <div className='space-y-4'>
           <div className='relative aspect-square overflow-hidden rounded-lg border-gray-300 shadow-lg'>
             <Image
               src={selectedImage || '/placeholder.svg'}
-              alt={product.name}
+              alt={'Selected image'}
               fill
               className='object-cover'
               priority
@@ -50,16 +32,16 @@ export default function ItemDetail({ itemObject }) {
               className={
                 'relative h-20 w-20 cursor-pointer overflow-hidden rounded-md border-gray-300'
               }
-              onClick={() => setSelectedImage(product.mainImage)}
+              onClick={() => setSelectedImage(mainImage)}
             >
               <Image
-                src={product.mainImage || '/placeholder.svg'}
+                src={mainImage || '/placeholder.svg'}
                 alt='Front view'
                 fill
                 className='object-cover'
               />
             </div>
-            {product.images.map((image, index) => (
+            {images.map((image, index) => (
               <div
                 key={index}
                 className={
@@ -109,10 +91,24 @@ export default function ItemDetail({ itemObject }) {
                     <p className='text-sm font-medium text-gray-500'>
                       {attribute.name}
                     </p>
-                    <p className='font-medium'>{attribute.value}</p>
+                    <p className='font-medium text-gray-800'>
+                      {attribute.value}
+                    </p>
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          <hr className='my-4 border-gray-300' />
+
+          <div>
+            <h2 className='mb-4 text-xl font-semibold'>
+              Ogranization & Location
+            </h2>
+            <div className='rounded-2xl border border-gray-200 p-4 shadow'>
+              <p>{itemObject.organization}</p>
+              <p>{itemObject.location}</p>
             </div>
           </div>
         </div>

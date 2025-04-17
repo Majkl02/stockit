@@ -2,10 +2,10 @@
 
 import Image from 'next/image'
 import HeaderUser from './HeaderUser'
-import { useGlobalContext } from '../context/GlobalContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function Header() {
-  const { user } = useGlobalContext()
+  const { user } = useAuth()
 
   return (
     <header className='flex h-30 max-w-screen items-center justify-between bg-gray-800 px-6 py-4 text-white'>
