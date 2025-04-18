@@ -7,6 +7,8 @@ import Link from 'next/link'
 export default function UserProfile() {
   const { user, setUser } = useAuth()
 
+  if (!user) return null
+
   return (
     <div className='container mx-auto mt-10 mb-10 max-w-300 rounded-md shadow-md'>
       <div className='h-20 rounded-t-md bg-gradient-to-r from-sky-500 to-blue-500'></div>

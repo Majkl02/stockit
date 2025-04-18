@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { refreshAccessToken } from '../_lib/data-services'
+import { refreshAccessToken } from '../_lib/login-services'
 
 const AuthContext = createContext()
 

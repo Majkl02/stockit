@@ -4,9 +4,10 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
-import { proceedLogin } from '../_lib/data-services'
+import { proceedLogin } from '../_lib/login-services'
 import pass_eye_closed from '/public/pass-eye-closed.svg'
 import pass_eye from '/public/pass-eye.svg'
+import logo from '/public/Logo.png'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -21,30 +22,43 @@ export default function LoginForm() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-
-    const email = e.target.email.value
-    const password = e.target.password.value
     setInvalidCreds(false)
     setBadRequest(false)
 
-    console.log(email, password)
+    const email = e.target.email.value
+    const password = e.target.password.value
 
-    const data = await proceedLogin(
-      email,
-      password,
-      setInvalidCreds,
-      setBadRequest
-    )
-    console.log('Data:' + data)
-    if (data === undefined) return
+    // DEBUG
+    // console.log(email, password)
 
-    setUser(data.user_info)
-    document.cookie = `access_token=${data.access_token}; path=/; max-age=36000`
-    document.cookie = `refresh_token=${data.refresh_token}; path=/; max-age=604800`
-    localStorage.setItem('user', JSON.stringify(data.user_info))
-    console.log(data)
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
 
-    router.push('/')
+      if (!res.ok) {
+        if (res.status === 401) setInvalidCreds(true)
+        else setBadRequest(true)
+        return
+      }
+
+      const data = await res.json()
+
+      // DEBUG
+      // console.log('Data:' + data)
+
+      setUser(data.user)
+      localStorage.setItem('user', JSON.stringify(data.user))
+
+      router.push('/')
+    } catch (error) {
+      console.error('Login failed:', error)
+      setBadRequest(true)
+    }
   }
 
   return (
@@ -53,7 +67,7 @@ export default function LoginForm() {
       tabIndex='0'
     >
       <div className='flex items-center justify-center gap-5 text-5xl font-bold'>
-        <Image src='/Logo.png' alt='StockIt Logo' width={30} height={10} />
+        <Image src={logo} alt='StockIt Logo' width={50} />
         <h1>StockIT</h1>
       </div>
       <div className='mb-6'>

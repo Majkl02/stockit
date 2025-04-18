@@ -2,20 +2,18 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '../context/AuthContext'
+import user_pic from '/public/person-circle-outline.svg'
+import useLogout from '@/app/hooks/useLogout'
 
 export default function HeaderUser() {
-  const router = useRouter()
-  const { user, setUser } = useAuth()
+  const { user } = useAuth()
+
+  const logout = useLogout()
 
   function handleLogout(e) {
     e.preventDefault()
-    document.cookie = 'access_token=; Max-Age=0;'
-    document.cookie = 'refresh_token=; Max-Age=0;'
-    localStorage.removeItem('user')
-    setUser(null)
-    router.push('/login')
+    logout()
   }
 
   if (!user) return null
@@ -26,12 +24,7 @@ export default function HeaderUser() {
         href='/profile'
         className='flex rounded-l-md px-4 py-2 hover:bg-sky-600'
       >
-        <Image
-          src='/person-circle-outline.svg'
-          alt='nav icon'
-          width={30}
-          height={30}
-        />
+        <Image src={user_pic} alt='nav icon' width={30} />
         <span className='px-2 py-1'>{`${user.first_name} ${user.last_name}`}</span>
       </Link>
 
