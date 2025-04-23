@@ -7,12 +7,11 @@ const REFRESH_THRESHOLD = 60 * 5 // 5 minutes
 //TODO: Problem ak sa odhlasujem z profilu!!!
 
 export async function middleware(request) {
-  console.log('🛡️ Middleware is running!')
-
   const accessToken = request.cookies.get('access_token')?.value
   const refreshToken = request.cookies.get('refresh_token')?.value
   const url = request.nextUrl
   const pathname = url.pathname
+  console.log('🛡️ Middleware is running!', pathname)
 
   const isLoginPage = pathname === '/login'
   const isApiRoute = pathname.startsWith('/api/')
@@ -26,14 +25,14 @@ export async function middleware(request) {
   }
 
   // 🔐 Not authenticated
-  if (!accessToken && !refreshToken) {
+  if (!accessToken || !refreshToken) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
   // 🧠 Decode token and check expiry
   const payload = decodeJwt(accessToken)
   const now = Math.floor(Date.now() / 1000)
-  const isExpiringSoon = payload?.exp && payload.exp - now < 60 * 14.8
+  const isExpiringSoon = payload?.exp && payload.exp - now < REFRESH_THRESHOLD
 
   if (isExpiringSoon && refreshToken) {
     console.log('Refreshing token...')
@@ -72,5 +71,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|favicon.ico|login|api).*)']
+  matcher: ['/((?!api|_next|favicon.ico|login|.*\\.svg$).*)']
 }

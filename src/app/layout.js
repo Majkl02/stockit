@@ -10,7 +10,10 @@ const inter = Inter({
 
 export const metadata = {
   title: 'StockIt',
-  description: 'University Final Project'
+  description: 'University Final Project',
+  icons: {
+    icon: '/favicon.ico'
+  }
 }
 
 export default function RootLayout({ children }) {
