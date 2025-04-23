@@ -4,9 +4,9 @@ import { useState } from 'react'
 import ItemPagination from './ItemPagination'
 import ItemsGrid from './ItemsGrid'
 
-const ITEMS_PER_PAGE = 15 // Kolko itemov chcem zobrazit na stranke
+const ITEMS_PER_PAGE = 5 // Kolko itemov chcem zobrazit na stranke
 
-export default function ItemSection({ items }) {
+export default function ItemSection({ items, itemsMetadata }) {
   const [currentPage, setCurrentPage] = useState(1)
 
   const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE)

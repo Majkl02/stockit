@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-
 import Image from 'next/image'
 import it_tech from '/public/it_tech.png'
 import org_icon from '/public/organization.svg'
@@ -13,27 +12,34 @@ export default function Item({ id, name, organization, location, image }) {
   return (
     <div
       onClick={() => router.push(`/inventory/items/${id}`)}
-      className='mb-4 flex cursor-pointer flex-col rounded-2xl bg-gray-200 shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1 active:translate-y-0'
+      className='group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]'
     >
-      <div className='relative aspect-[3/2] flex-1 rounded-t-2xl'>
+      <div className='relative aspect-[4/3] w-full'>
         <Image
           src={it_tech}
+          alt='Item image'
           fill
-          alt='item-tech-img'
-          className='flex-1 rounded-t-2xl object-cover'
+          className='object-cover transition-transform duration-300 group-hover:scale-105'
+          sizes='(max-width: 768px) 100vw, 50vw'
         />
       </div>
-      <div className='p-2'>
-        <h1 className='text-lg font-semibold text-gray-700'>
-          {name.length > 25 ? name.slice(0, 20) + '...' : name}
-        </h1>
-        <div className='flex items-center gap-2'>
-          <Image src={org_icon} alt='organization' />
-          <p className='text-sm text-gray-600'>{organization}</p>
+
+      <div className='space-y-1 p-4'>
+        <h2 className='truncate text-xl font-semibold text-gray-800'>{name}</h2>
+
+        <div className='flex items-center gap-2 text-sm text-gray-600'>
+          <Image
+            src={org_icon}
+            alt='Organization icon'
+            width={16}
+            height={16}
+          />
+          <span className='truncate'>{organization}</span>
         </div>
-        <div className='flex items-center gap-2'>
-          <Image src={loc_icon} alt='organization' />
-          <p className='text-sm text-gray-600'>{location}</p>
+
+        <div className='flex items-center gap-2 text-sm text-gray-600'>
+          <Image src={loc_icon} alt='Location icon' width={16} height={16} />
+          <span className='truncate'>{location}</span>
         </div>
       </div>
     </div>

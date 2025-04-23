@@ -1,3 +1,5 @@
+import { ChevronDown, ChevronUp } from 'lucide-react'
+
 export default function ToggleAdvancedFiltersButton({
   handleFilters,
   filtersOpen
@@ -9,7 +11,8 @@ export default function ToggleAdvancedFiltersButton({
     >
       <span>{filtersOpen ? 'Close' : 'Open'} advanced filters</span>
       <span className='px-1.5 text-xs font-medium'>
-        {filtersOpen ? '-' : '+'} {/*TODO Spravit krajsie*/}
+        {filtersOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}{' '}
+        {/*TODO Spravit krajsie*/}
       </span>
     </div>
   )

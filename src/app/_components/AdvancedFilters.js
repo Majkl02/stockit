@@ -1,12 +1,58 @@
+'use client'
+import { useState } from 'react'
+import Select from 'react-select'
+import { ItemStatus } from '@/app/_lib/enums'
+
 export default function AdvancedFilters({
   organizations,
+  handleOrganization,
+  selectedOrg,
   locations,
+  handleLocation,
+  selectedLoc,
+  handleStatus,
+  selectedStatus,
   filtersOpen
 }) {
+  const [locationsList, setLocationsList] = useState(locations)
+  //TODO: Status list should be dynamic
+
+  function handleOrgChange(selected) {
+    const selectedValues = selected.map(option => option.value)
+
+    if (selectedValues.length > 0) {
+      const filteredLocations = locations.filter(loc =>
+        selectedValues.includes(loc.organization_id)
+      )
+      setLocationsList(filteredLocations)
+    } else {
+      setLocationsList(locations)
+    }
+
+    handleOrganization(selectedValues)
+  }
+
+  const orgOptions = organizations.map(org => ({
+    value: org.organization_id,
+    label: org.organization_name
+  }))
+
+  const locOptions = locationsList.map(loc => ({
+    value: loc.location_id,
+    label: loc.location_name
+  }))
+
+  const statusOptions = Object.entries(ItemStatus).map(([key, value]) => ({
+    value: key,
+    label: value
+  }))
+
   return (
     <div
-      className={`overflow-hidden transition-all duration-400 ease-in-out ${
-        filtersOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+      className={`transition-all duration-400 ease-in-out ${
+        filtersOpen
+          ? 'max-h-[500px] opacity-100'
+          : 'max-h-0 overflow-hidden opacity-0'
       }`}
     >
       <div className='mb-2 grid grid-cols-1 gap-4 px-2 pt-2 sm:grid-cols-3'>
@@ -17,17 +63,12 @@ export default function AdvancedFilters({
           >
             Organization
           </label>
-          <select
-            id='organization'
-            className='w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700'
-          >
-            <option value=''>All Organizations</option>
-            {organizations.map(org => (
-              <option key={org.organization_id} value={org.organization_id}>
-                {org.organization_name}
-              </option>
-            ))}
-          </select>
+          <Select
+            options={orgOptions}
+            isMulti
+            value={orgOptions.filter(opt => selectedOrg.includes(opt.value))}
+            onChange={handleOrgChange}
+          />
         </div>
 
         <div>
@@ -37,36 +78,32 @@ export default function AdvancedFilters({
           >
             Location
           </label>
-          <select
-            id='location'
-            className='w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700'
-          >
-            <option value=''>All locations</option>
-            {locations.map(loc => (
-              <option key={loc.location_id} value={loc.location_id}>
-                {loc.location_name}
-              </option>
-            ))}
-          </select>
+          <Select
+            options={locOptions}
+            isMulti
+            value={locOptions.filter(opt => selectedLoc.includes(opt.value))}
+            onChange={selected =>
+              handleLocation(selected.map(option => option.value))
+            }
+          />
         </div>
-
         <div>
           <label
-            htmlFor='group'
+            htmlFor='status'
             className='mb-1 block text-sm font-medium text-gray-800'
           >
             Status
           </label>
-          <select
-            id='group'
-            className='w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700'
-          >
-            <option value=''>Exhibited</option>
-            <option value='1'>Archived</option>
-            <option value='2'>...</option>
-            <option value='3'>...</option>
-            <option value='4'>...</option>
-          </select>
+          <Select
+            options={statusOptions}
+            isMulti
+            value={statusOptions.filter(opt =>
+              selectedStatus.includes(opt.value)
+            )}
+            onChange={selected =>
+              handleStatus(selected.map(option => option.value))
+            }
+          />
         </div>
       </div>
     </div>
