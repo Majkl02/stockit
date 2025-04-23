@@ -24,7 +24,7 @@ export default function HeaderUser() {
         href='/profile'
         className='flex rounded-l-md px-4 py-2 hover:bg-sky-600'
       >
-        <Image src={user_pic} alt='nav icon' width={30} />
+        <Image src={user_pic} alt='User icon' width={30} height='auto' />
         <span className='px-2 py-1'>{`${user.first_name} ${user.last_name}`}</span>
       </Link>
 

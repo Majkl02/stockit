@@ -8,13 +8,13 @@ export default function UserProfileEdit() {
   const { user, setUser } = useAuth()
 
   const [formData, setFormData] = useState({
+    email: user.email,
+    address: user.address,
+    description: user.description,
     first_name: user.first_name,
     last_name: user.last_name,
-    email: user.email,
     phone_number: user.phone_number,
-    address: user.address,
-    birth_date: user.birth_date,
-    description: user.description
+    birth_date: user.birth_date
   })
 
   const handleChange = e => {
@@ -32,7 +32,7 @@ export default function UserProfileEdit() {
   return (
     <form
       onSubmit={handleSubmit}
-      className='container mx-auto mt-10 mb-10 max-w-3xl rounded-md shadow-md'
+      className='container mx-auto mt-10 mb-10 max-w-300 rounded-md shadow-md'
     >
       <div className='h-20 rounded-t-md bg-gradient-to-r from-sky-500 to-blue-500'></div>
       <div className='overflow-hidden px-5'>
@@ -83,6 +83,9 @@ export default function UserProfileEdit() {
                 </div>
               </div>
             </div>
+            <label className='mb-1 flex items-center gap-2 text-sm font-medium text-gray-700'>
+              Description
+            </label>
             <textarea
               name='description'
               value={formData.description}
