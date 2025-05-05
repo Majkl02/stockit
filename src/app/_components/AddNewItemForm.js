@@ -1,28 +1,47 @@
-export default function AddNewItemForm() {
+import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
+
+export default function AddNewItemForm({
+  locations,
+  categories,
+  newItem,
+  setNewItem
+}) {
+  const locOptions = locations.map(loc => ({
+    value: loc.location_id,
+    label: loc.location_name
+  }))
+
+  const categOptions = categories.map(cat => ({
+    value: cat.id,
+    label: cat.name
+  }))
+
   return (
-    <div className='rounded-md border-2 p-4'>
-      <h2 className='mb-4 text-xl font-bold'>Item form</h2>
+    <div className='rounded-2xl border-4 border-sky-700 p-6 shadow-lg shadow-gray-400'>
+      <h2 className='mb-4 text-xl font-bold text-gray-700'>Item form</h2>
       <form onSubmit={e => e.preventDefault()}>
         {/* Filter dropdowns */}
         <div className='flex flex-col gap-4'>
           <div>
             <label
-              htmlFor='categories'
+              htmlFor='location'
               className='mb-1 block text-sm font-medium text-gray-700'
             >
               Location
             </label>
-            <select
-              type='input'
-              id='categories'
-              name='categories'
+            <Select
+              options={locOptions}
               required
-              className='w-full rounded-md border border-gray-300 px-3 py-2'
-            >
-              <option value='clothing'>Room 1</option>
-              <option value='electronics'>Room 2</option>
-              <option value='furniture'>Room 3</option>
-            </select>
+              value={locOptions.find(loc => newItem.location_id === loc.value)}
+              onChange={selected => {
+                setNewItem(prev => ({
+                  ...prev,
+                  location_id: selected.value
+                }))
+              }}
+              className='w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-sky-700 focus:outline-none'
+            />
           </div>
           <div>
             <label
@@ -35,8 +54,12 @@ export default function AddNewItemForm() {
               type='text'
               id='name'
               name='name'
+              value={newItem.item_name}
+              onChange={e => {
+                setNewItem(prev => ({ ...prev, item_name: e.target.value }))
+              }}
               required
-              className='w-full rounded-md border border-gray-300 px-3 py-2'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-sky-700 focus:outline-none'
               placeholder='Item Name'
             ></input>
           </div>
@@ -52,7 +75,11 @@ export default function AddNewItemForm() {
               id='description'
               name='description'
               required
-              className='h-20 w-full rounded-md border border-gray-300 px-3 py-2'
+              value={newItem.description}
+              onChange={e => {
+                setNewItem(prev => ({ ...prev, description: e.target.value }))
+              }}
+              className='h-20 w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-sky-700 focus:outline-none'
               rows={10}
               placeholder='Item description'
             ></textarea>
@@ -66,34 +93,26 @@ export default function AddNewItemForm() {
               Categories
             </label>
             <div className='flex items-center gap-4'>
-              <select
-                type='input'
-                id='categories'
-                name='categories'
-                required
-                className='w-full rounded-md border border-gray-300 px-3 py-2'
-              >
-                <option value='clothing'>Computer</option>
-                <option value='electronics'>Headphones</option>
-                <option value='furniture'>Mobile</option>
-              </select>
-              <div className='w-30 cursor-pointer rounded-2xl bg-gray-200 p-2 text-center hover:bg-gray-300'>
-                Add
-              </div>
-            </div>
-            <div className='mt-5 flex gap-2'>
-              <span className='rounded-2xl bg-gray-400 p-2 text-center hover:bg-gray-300'>
-                Computer
-              </span>
-              <span className='rounded-2xl bg-gray-400 p-2 text-center hover:bg-gray-300'>
-                Headphones
-              </span>
-              <span className='rounded-2xl bg-gray-400 p-2 text-center hover:bg-gray-300'>
-                Mobile
-              </span>
+              <Select
+                options={categOptions}
+                isMulti
+                value={categOptions.filter(categ =>
+                  newItem.item_categories.includes(categ.value)
+                )}
+                onChange={selected => {
+                  const selectedValues = selected.map(option => option.value)
+                  console.log(selectedValues)
+                  setNewItem(prev => ({
+                    ...prev,
+                    item_categories: selectedValues
+                  }))
+                  console.log(newItem)
+                }}
+                className='w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-sky-700 focus:outline-none'
+              />
             </div>
           </div>
-          <div>
+          {/* <div>
             <label
               htmlFor='attributes'
               className='mb-1 block text-sm font-medium text-gray-700'
@@ -116,7 +135,7 @@ export default function AddNewItemForm() {
                 Add
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </form>
     </div>
