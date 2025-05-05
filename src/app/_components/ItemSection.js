@@ -1,25 +1,23 @@
-'use client'
-
-import { useState } from 'react'
 import ItemPagination from './ItemPagination'
 import ItemsGrid from './ItemsGrid'
 
-const ITEMS_PER_PAGE = 5 // Kolko itemov chcem zobrazit na stranke
-
-export default function ItemSection({ items, itemsMetadata }) {
-  const [currentPage, setCurrentPage] = useState(1)
-
-  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE)
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const currentItems = items.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+export default function ItemSection({
+  items,
+  itemsMetadata,
+  onPageChange,
+  parameters
+}) {
   return (
     <>
-      <ItemsGrid currentItems={currentItems} />
+      <ItemsGrid currentItems={items} />
 
       <ItemPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={page => setCurrentPage(page)}
+        currentPage={itemsMetadata.page}
+        totalPages={itemsMetadata.total_pages}
+        hasNext={itemsMetadata.has_next}
+        hasPrevious={itemsMetadata.has_previous}
+        onPageChange={onPageChange}
+        parameters={parameters}
       />
     </>
   )

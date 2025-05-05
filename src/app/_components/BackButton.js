@@ -7,7 +7,7 @@ export default function BackButton() {
   const router = useRouter()
   return (
     <button
-      className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-sky-600 hover:bg-sky-700'
+      className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-sky-700 hover:bg-sky-800'
       onClick={() => router.back()}
     >
       <Image
