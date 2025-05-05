@@ -6,23 +6,14 @@ export default function ActionPopup({
   message = 'Are you sure you want to continue?',
   primaryButtonText = 'Confirm',
   secondaryButtonText = 'Cancel',
-  onPrimaryAction,
-  onSecondaryAction,
+  onItemDelete,
   setIsOpen
 }) {
   const handleClose = () => {
     setIsOpen(false)
   }
 
-  const handlePrimaryAction = () => {
-    // onPrimaryAction()
-    alert('Item deleted')
-    handleClose()
-  }
-
   const handleSecondaryAction = () => {
-    // onSecondaryAction()
-    alert('Item not deleted')
     handleClose()
   }
 
@@ -52,7 +43,7 @@ export default function ActionPopup({
             {secondaryButtonText}
           </button>
           <button
-            onClick={handlePrimaryAction}
+            onClick={onItemDelete}
             className='cursor-pointer font-bold hover:text-gray-100 dark:text-gray-400 dark:hover:text-gray-200'
           >
             {primaryButtonText}

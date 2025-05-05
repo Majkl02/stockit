@@ -42,7 +42,7 @@ export default function UserProfile() {
 
             <div className='grid gap-4 md:grid-cols-2'>
               <div className='flex items-center gap-3'>
-                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-300'>
+                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-500'>
                   <Mail className='h-5 w-5' />
                 </div>
                 <div>
@@ -52,7 +52,7 @@ export default function UserProfile() {
               </div>
 
               <div className='flex items-center gap-3'>
-                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-300'>
+                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-500'>
                   <Phone className='h-5 w-5' />
                 </div>
                 <div>
@@ -62,7 +62,7 @@ export default function UserProfile() {
               </div>
 
               <div className='flex items-center gap-3'>
-                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-300'>
+                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-500'>
                   <MapPin className='h-5 w-5' />
                 </div>
                 <div>
@@ -72,7 +72,7 @@ export default function UserProfile() {
               </div>
 
               <div className='flex items-center gap-3'>
-                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-300'>
+                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-sky-500'>
                   <Calendar className='h-5 w-5' />
                 </div>
                 <div>

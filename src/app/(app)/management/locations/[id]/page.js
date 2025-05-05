@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 async function getLocation(id) {
-  //TODO: handle cookie error
   try {
     const res = await fetch(`http://localhost:3000/api/locations/${id}`, {
       headers: {

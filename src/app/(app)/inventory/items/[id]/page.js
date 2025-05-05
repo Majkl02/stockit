@@ -21,11 +21,13 @@ export default async function ItemDetailPage({ params }) {
     id: item.item_id,
     name: item.item_name,
     description: item.description,
-    organization: organization.organization_name,
-    location: location.location_name,
+    organization: organization,
+    location: location,
+    status: item.status,
+    archived: item.archived,
     categories: item.categories,
     attributes: item.attributes,
-    imageUrl: item.imageUrl
+    attachments: item.attachments
   }
 
   console.log('Organization:', organization)
@@ -33,7 +35,7 @@ export default async function ItemDetailPage({ params }) {
 
   return (
     <div>
-      <ItemDetailHeader title={itemObject.name} />
+      <ItemDetailHeader title={itemObject.name} itemId={itemObject.id} />
       <ItemDetail id={id} itemObject={itemObject} />
     </div>
   )

@@ -3,7 +3,6 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 async function getOrganization(id) {
-  //TODO: handle cookie error
   try {
     const res = await fetch(`http://localhost:3000/api/organizations/${id}`, {
       headers: {

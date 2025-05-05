@@ -5,12 +5,7 @@ import AdvancedFilters from './AdvancedFilters'
 import SearchField from './SearchField'
 import ToggleAdvancedFiltersButton from './ToggleAdvancedFiltersButton'
 
-export default function SearchForm({
-  organizations,
-  locations,
-  handleItems,
-  handleItemsMetadata
-}) {
+export default function SearchForm({ organizations, locations, fetchItems }) {
   // State variables for search term and selected filters: Controlled components
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedOrg, setSelectedOrg] = useState([])
@@ -45,24 +40,7 @@ export default function SearchForm({
       params.append('itemName', searchTerm)
     }
 
-    params.append('showArchived', 'false')
-    params.append('page', '0')
-    params.append('size', '5')
-
-    try {
-      const res = await fetch(`/api/items/filter?${params.toString()}`, {
-        method: 'GET'
-      })
-
-      if (!res.ok) throw new Error('Failed to fetch filtered items.')
-
-      const data = await res.json()
-      console.log('Filtered items:', data)
-      handleItems(data.data)
-      handleItemsMetadata(data.metadata)
-    } catch (err) {
-      console.error('Error fetching filtered items:', err)
-    }
+    fetchItems(params)
   }
 
   return (
