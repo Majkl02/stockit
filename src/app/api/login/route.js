@@ -1,18 +1,36 @@
 // This is a Next.js API route that handles user login.
-
 import { decodeJwt } from '@/app/_lib/utils/jwt'
 import { NextResponse } from 'next/server'
 import { proceedLogin } from '@/app/_lib/login-services'
 
 export async function POST(req) {
-  console.log('Login API called')
   const { email, password } = await req.json()
 
   const data = await proceedLogin(email, password)
-  console.log('API Data:', data)
 
-  if (!data || !data.access_token || !data.refresh_token) {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+  // DEBUG
+  // console.log('API Data:', data)
+
+  if (!data) {
+    return NextResponse.json(
+      { errorMessage: 'Internal Server Error! Try again later.' },
+      { status: 500 }
+    )
+  }
+
+  // Check for a failed login based on response structure
+  if (data.code === '401 UNAUTHORIZED') {
+    return NextResponse.json(
+      { errorMessage: data.message || 'Invalid credentials' },
+      { status: 401 }
+    )
+  }
+
+  if (data.code === '400 BAD_REQUEST') {
+    return NextResponse.json(
+      { errorMessage: data.message || 'Invalid credentials' },
+      { status: 401 }
+    )
   }
 
   const now = Math.floor(Date.now() / 1000)
