@@ -1,4 +1,4 @@
-import { GlobalProvider } from './context/GlobalContext'
+import { GlobalProvider } from './context/PermissionContext'
 import { AuthProvider } from './context/AuthContext'
 
 import { Inter } from 'next/font/google'

@@ -1,4 +1,4 @@
-import InventoryItems from '@/app/_components/InventoryItems'
+import InventoryItems from '@/app/_components/Inventory/InventoryItems'
 import { getItems, getLocations, getOrganizations } from '@/app/_lib/data'
 
 export default async function Items() {

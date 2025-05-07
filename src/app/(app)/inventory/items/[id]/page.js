@@ -1,5 +1,5 @@
-import ItemDetail from '@/app/_components/ItemDetail'
-import ItemDetailHeader from '@/app/_components/ItemDetailHeader'
+import ItemDetail from '@/app/_components/Inventory/ItemDetail'
+import ItemDetailHeader from '@/app/_components/Inventory/ItemDetailHeader'
 import {
   getItemById,
   getLocationById,

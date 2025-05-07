@@ -1,7 +1,7 @@
-import DashboardDateTime from '../_components/DashboardDateTime'
-import DashboardHeader from '../_components/DashboardHeader'
-import DashboardRecentStoredItems from '../_components/DashboardRecentStoredItems'
-import DashboardStatistics from '../_components/DashboardStatistics'
+import DashboardDateTime from '../_components/Dashboard/DashboardDateTime'
+import DashboardHeader from '../_components/Dashboard/DashboardHeader'
+import DashboardRecentStoredItems from '../_components/Dashboard/DashboardRecentStoredItems'
+import DashboardStatistics from '../_components/Dashboard/DashboardStatistics'
 
 export default function Dashboard() {
   return (
