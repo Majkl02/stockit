@@ -2,13 +2,12 @@
 
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import it_tech from '/public/it_tech.png'
+import placeholder_img from '/public/item-placeholder-img.jpg'
 import org_icon from '/public/organization.svg'
 import loc_icon from '/public/location.svg'
 
 export default function Item({ id, name, organization, location, image }) {
   const router = useRouter()
-
   return (
     <div
       onClick={() => router.push(`/inventory/items/${id}`)}
@@ -16,7 +15,7 @@ export default function Item({ id, name, organization, location, image }) {
     >
       <div className='relative aspect-[4/3] w-full'>
         <Image
-          src={it_tech}
+          src={image ? image : placeholder_img}
           alt='Item image'
           fill
           className='object-cover transition-transform duration-300 group-hover:scale-105'

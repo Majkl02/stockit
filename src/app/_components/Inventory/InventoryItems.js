@@ -9,6 +9,7 @@ const ITEMS_PER_PAGE = 5 // Number of items per page
 export default function InventoryItems({ organizations, locations }) {
   // State variables for items, metadata and parameters
   const [items, setItems] = useState(null)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
   const [itemsMetadata, setItemsMetadata] = useState({})
   const [parameters, setParameters] = useState(null)
 
@@ -37,6 +38,7 @@ export default function InventoryItems({ organizations, locations }) {
       const data = await res.json()
       //DEBUG
       // console.log('Filtered items:', data)
+      setImagesLoaded(false)
       setItems(data.data)
       setItemsMetadata(data.metadata)
       //DEBUG
@@ -51,6 +53,53 @@ export default function InventoryItems({ organizations, locations }) {
   useEffect(() => {
     fetchItems()
   }, [])
+
+  useEffect(() => {
+    if (!items || imagesLoaded) return
+    const fetchItemImages = async () => {
+      if (items) {
+        const updatedItems = await Promise.all(
+          items.map(async item => {
+            if (item.attachments.length === 0) {
+              return { ...item, imageUrl: null } // Use a placeholder image if no attachments are found
+            }
+            const frontImage = item.attachments.find(
+              attachment => attachment.position === 'FRONT'
+            )
+            console.log('frontImage', frontImage)
+            try {
+              const response = await fetch(`/api/attachments`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  url:
+                    frontImage !== undefined
+                      ? frontImage.link
+                      : item.attachments[0].link
+                })
+              })
+
+              if (!response.ok) throw new Error('Failed to fetch item image')
+
+              const blob = await response.blob()
+              const objectUrl = URL.createObjectURL(blob)
+
+              return { ...item, imageUrl: objectUrl }
+            } catch (err) {
+              console.error('Error loading image:', err)
+            }
+          })
+        )
+        setImagesLoaded(true)
+        setItems(updatedItems)
+        console.log('Updated items with images:', updatedItems)
+      }
+    }
+
+    fetchItemImages()
+  }, [items, imagesLoaded])
 
   // Map the organization and location IDs to their names for easier access
   // This is done to avoid multiple lookups in the organizations and locations arrays
@@ -84,10 +133,12 @@ export default function InventoryItems({ organizations, locations }) {
       organization: orgMap[item.organization_id],
       location: locMap[item.location_id],
       imageUrl: item.imageUrl,
-      status: item.status
+      status: item.status,
+      created_at: item.created_at
     }
   })
 
+  console.log('Item list:', itemList)
   // DEBUG
   // console.log('Item list:', itemList)
 

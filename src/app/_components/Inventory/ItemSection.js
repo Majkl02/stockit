@@ -7,6 +7,7 @@ export default function ItemSection({
   onPageChange,
   parameters
 }) {
+  console.log('Item image:', items[0].imageUrl)
   return (
     <>
       <ItemsGrid currentItems={items} />

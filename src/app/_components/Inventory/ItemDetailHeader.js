@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import BackButton from './BackButton'
-import ActionPopup from './ActionPopup'
+import BackButton from '@/app/_components/Actions/BackButton'
+import ActionPopup from '@/app/_components/Actions/ActionPopup'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 

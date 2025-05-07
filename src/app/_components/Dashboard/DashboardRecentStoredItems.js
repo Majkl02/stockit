@@ -1,4 +1,4 @@
-import Item from './Item'
+import Item from '../Item/Item'
 // TODO: Replace with actual data fetching logic
 export default function DashboardRecentStoredItems() {
   const recentItems = [

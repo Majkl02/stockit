@@ -1,4 +1,4 @@
-import Item from './Item'
+import Item from '@/app/_components/Item/Item'
 
 export default function ItemsGrid({ currentItems }) {
   return (
@@ -10,7 +10,7 @@ export default function ItemsGrid({ currentItems }) {
           name={item.name}
           organization={item.organization}
           location={item.location}
-          image={item.imageURL}
+          image={item.imageUrl}
         />
       ))}
     </div>

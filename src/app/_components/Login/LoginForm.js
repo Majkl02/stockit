@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
 import pass_eye_closed from '/public/pass-eye-closed.svg'
 import pass_eye from '/public/pass-eye.svg'

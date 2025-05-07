@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import AdvancedFilters from './AdvancedFilters'
 import SearchField from './SearchField'
-import ToggleAdvancedFiltersButton from './ToggleAdvancedFiltersButton'
+import ToggleAdvancedFiltersButton from '../Actions/ToggleAdvancedFiltersButton'
 
 export default function SearchForm({ organizations, locations, fetchItems }) {
   // State variables for search term and selected filters: Controlled components

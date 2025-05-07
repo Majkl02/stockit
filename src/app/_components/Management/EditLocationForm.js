@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 
 export default function EditLocationForm({ locationId }) {
   const [formData, setFormData] = useState(null)
+  const [originalName, setOriginalName] = useState('')
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -14,6 +15,7 @@ export default function EditLocationForm({ locationId }) {
         const res = await fetch(`/api/locations/${locationId}`)
         const data = await res.json()
         setFormData(data)
+        setOriginalName(data.location_name)
       } catch (err) {
         console.error('Failed to load location:', err)
       } finally {
@@ -30,20 +32,25 @@ export default function EditLocationForm({ locationId }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    // TODO: Implement PATCH logic
-    // try {
-    //   const res = await fetch(`/api/locations/${locationId}`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(formData)
-    //   })
-    //
-    //   if (!res.ok) throw new Error('Update failed')
-    // } catch (err) {
-    //   console.error('Failed to update location:', err)
-    // }
+
+    try {
+      const res = await fetch(`/api/locations/${locationId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          location_name: formData.location_name,
+          room: formData.room,
+          description: formData.description,
+          organization_id: formData.organization_id
+        })
+      })
+
+      if (!res.ok) throw new Error('Update failed')
+    } catch (err) {
+      console.error('Failed to update location:', err)
+    }
 
     router.push(`/management/locations/${locationId}`)
   }
@@ -55,7 +62,7 @@ export default function EditLocationForm({ locationId }) {
   return (
     <div className='mx-auto my-16 max-w-4xl px-4'>
       <h1 className='mb-12 text-center text-5xl font-bold text-gray-700'>
-        {`Edit: ${formData.location_name}`}
+        {`Edit: ${originalName}`}
       </h1>
 
       <form

@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useAuth } from '../context/AuthContext'
-import user_pic from '/public/person-circle-outline.svg'
+import { useAuth } from '@/app/context/AuthContext'
 import useLogout from '@/app/hooks/useLogout'
+import Link from 'next/link'
+import Image from 'next/image'
+import user_pic from '/public/person-circle-outline.svg'
 
 export default function HeaderUser() {
   const { user } = useAuth()

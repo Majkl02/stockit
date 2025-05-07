@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import HeaderUser from './HeaderUser'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '@/app/context/AuthContext'
 import logo from '/public/Logo.png'
 
 export default function Header() {

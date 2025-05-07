@@ -1,10 +1,10 @@
 'use client'
 
-import AddNewItemForm from '@/app/_components/AddNewItemForm'
-import AddNewItemMethodForm from '@/app/_components/AddNewItemMethodForm'
-import AddNewItemUploadPhotoForm from '@/app/_components/AddNewItemUploadPhotoForm'
-import AddNewItemReviewForm from '@/app/_components/AddNewItemReviewForm'
-import AddNewItemStepper from '@/app/_components/AddNewItemStepper'
+import AddNewItemForm from '@/app/_components/AddNewItem/AddNewItemForm'
+import AddNewItemMethodForm from '@/app/_components/AddNewItem/AddNewItemMethodForm'
+import AddNewItemUploadPhotoForm from '@/app/_components/AddNewItem/AddNewItemUploadPhotoForm'
+import AddNewItemReviewForm from '@/app/_components/AddNewItem/AddNewItemReviewForm'
+import AddNewItemStepper from '@/app/_components/AddNewItem/AddNewItemStepper'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 

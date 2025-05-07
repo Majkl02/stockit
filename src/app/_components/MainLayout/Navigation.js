@@ -32,7 +32,9 @@ export default function Navigation() {
       <ul className='space-y-4'>
         {navItems.map(item => {
           const isActive =
-            pathname === item.path || (item.path === '/' && pathname === '')
+            pathname === item.path ||
+            (pathname.startsWith(item.path) && item.path !== '/')
+
           return (
             <li
               key={item.path}
