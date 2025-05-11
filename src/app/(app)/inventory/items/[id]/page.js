@@ -30,8 +30,9 @@ export default async function ItemDetailPage({ params }) {
     attachments: item.attachments
   }
 
-  console.log('Organization:', organization)
-  console.log('Location:', location)
+  // Debugging logs
+  // console.log('Organization:', organization)
+  // console.log('Location:', location)
 
   return (
     <div>

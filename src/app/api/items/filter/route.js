@@ -7,6 +7,7 @@ export async function GET(req) {
     const token = cookieStore.get('access_token')?.value
 
     if (!token) {
+      console.log('No access token found in cookies')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
