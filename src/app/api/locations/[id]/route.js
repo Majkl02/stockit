@@ -14,17 +14,20 @@ export async function GET(_, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const res = await fetch(`http://localhost:8888/api/v1/locations/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
       return NextResponse.json(
-        { error: `Failed to fetch organization with ID ${id}` },
+        { error: `Failed to fetch location with ID ${id}` },
         { status: res.status }
       )
     }
@@ -32,7 +35,51 @@ export async function GET(_, { params }) {
     const data = await res.json()
     return NextResponse.json(data)
   } catch (err) {
-    console.error(`Error fetching organization ${id}:`, err)
+    console.error(`Error fetching location ${id}:`, err)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PUT(req, { params }) {
+  const { id } = params
+
+  try {
+    const headerList = await headers()
+    const rawCookies = headerList.get('cookie') || ''
+    const parsed = cookie.parse(rawCookies)
+    const token = parsed['access_token']
+
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await req.json()
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+      }
+    )
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      console.error('Backend error response:', data)
+      return NextResponse.json(data, { status: res.status })
+    }
+
+    return NextResponse.json(data)
+  } catch (err) {
+    console.error(`Error updating location ${id}:`, err)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

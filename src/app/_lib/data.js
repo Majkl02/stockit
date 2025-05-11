@@ -9,7 +9,7 @@ export async function getItems() {
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
     // console.log('Token:', token)
-    const res = await fetch('http://localhost:8888/api/v1/items', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/items`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,15 +36,19 @@ export async function getItemById(id) {
     const rawCookies = asyncHeaders.get('cookie') || ''
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
-    const res = await fetch(`http://localhost:8888/api/v1/items/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/items/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
+      console.log('Response:', await res.json())
       throw new Error('Network response was not ok')
     }
 
@@ -63,13 +67,16 @@ export async function getOrganizations() {
     const rawCookies = asyncHeaders.get('cookie') || ''
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
-    const res = await fetch('http://localhost:8888/api/v1/organizations', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
       throw new Error('Network response was not ok')
@@ -91,7 +98,7 @@ export async function getOrganizationById(id) {
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
     const res = await fetch(
-      `http://localhost:8888/api/v1/organizations/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations/${id}`,
       {
         method: 'GET',
         headers: {
@@ -120,13 +127,16 @@ export async function getLocations() {
     const rawCookies = asyncHeaders.get('cookie') || ''
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
-    const res = await fetch('http://localhost:8888/api/v1/locations', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
       throw new Error('Network response was not ok')
@@ -147,13 +157,16 @@ export async function getLocationById(id) {
     const rawCookies = asyncHeaders.get('cookie') || ''
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
-    const res = await fetch(`http://localhost:8888/api/v1/locations/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
       throw new Error('Network response was not ok')
@@ -174,13 +187,16 @@ export async function getCategories() {
     const rawCookies = asyncHeaders.get('cookie') || ''
     const parsed = cookie.parse(rawCookies)
     const token = parsed['access_token']
-    const res = await fetch('http://localhost:8888/api/v1/categories', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
       throw new Error('Network response was not ok')

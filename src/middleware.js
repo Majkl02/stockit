@@ -25,8 +25,25 @@ export async function middleware(request) {
   }
 
   // 🔐 Not authenticated
-  if (!accessToken || !refreshToken) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  if (!refreshToken) {
+    console.warn('Refresh token missing. Triggering logout...')
+
+    // Create a response with expired cookies
+    const response = NextResponse.redirect(
+      new URL('/login?sessionExpired=true', request.url)
+    )
+    response.cookies.set('access_token', '', {
+      httpOnly: true,
+      path: '/',
+      expires: new Date(0)
+    })
+    response.cookies.set('refresh_token', '', {
+      httpOnly: true,
+      path: '/',
+      expires: new Date(0)
+    })
+
+    return response
   }
 
   // 🧠 Decode token and check expiry
@@ -34,8 +51,8 @@ export async function middleware(request) {
   const now = Math.floor(Date.now() / 1000)
   const isExpiringSoon = payload?.exp && payload.exp - now < REFRESH_THRESHOLD
 
-  if (isExpiringSoon && refreshToken) {
-    console.log('Refreshing token...')
+  if (isExpiringSoon || !accessToken) {
+    console.log('Refreshing access token...')
     try {
       const refreshRes = await fetch(`${url.origin}/api/refresh`, {
         method: 'POST',
@@ -66,7 +83,6 @@ export async function middleware(request) {
     }
   }
 
-  // ✅ Token valid and not expiring
   return NextResponse.next()
 }
 
