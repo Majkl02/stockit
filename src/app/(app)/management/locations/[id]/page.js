@@ -1,29 +1,11 @@
-// 3. Location detail page - /management/locations/[id]/page.js
 import { notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
-
-async function getLocation(id) {
-  try {
-    const res = await fetch(`http://localhost:3000/api/locations/${id}`, {
-      headers: {
-        cookie: cookies().toString()
-      },
-      cache: 'no-store'
-    })
-
-    if (!res.ok) return null
-
-    return await res.json()
-  } catch (err) {
-    console.error('Failed to fetch location:', err)
-    return null
-  }
-}
+import { getLocationById } from '@/app/_lib/data'
 
 export default async function LocationDetail({ params }) {
   const { id } = await params
-  const location = await getLocation(id)
+  const location = await getLocationById(id)
+
   console.log('Location detail:', location)
 
   if (!location) return notFound()

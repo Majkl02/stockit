@@ -1,48 +1,54 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Item from '../Item/Item'
-// TODO: Replace with actual data fetching logic
+
 export default function DashboardRecentStoredItems() {
-  const recentItems = [
-    {
-      id: 1,
-      name: 'Dell Latitude 5490',
-      location: 'Lab A',
-      organization: 'FIIT STU'
-    },
-    {
-      id: 2,
-      name: 'Logitech Mouse',
-      location: 'Storage B',
-      organization: 'FEI STU'
-    },
-    {
-      id: 3,
-      name: 'HP EliteBook',
-      location: 'Room C101',
-      organization: 'STUBA'
-    },
-    {
-      id: 4,
-      name: 'Asus Monitor',
-      location: 'Office 22',
-      organization: 'FMFI UK'
-    },
-    {
-      id: 5,
-      name: 'Lenovo Dock',
-      location: 'Sklad 5',
-      organization: 'STU Central'
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const parameters = new URLSearchParams()
+      parameters.set('sort', 'created_at:desc')
+      parameters.set('size', '5')
+      try {
+        const response = await fetch(
+          `/api/items/filter?${parameters.toString()}`,
+          {
+            method: 'GET'
+          }
+        )
+
+        const items = await response.json()
+        console.log('Recent stored items:', items)
+        setItems(items.data)
+      } catch (error) {
+        console.error('Error fetching recent stored items:', error)
+      }
     }
-  ]
+    fetchItems()
+  }, [])
+
+  if (!items || items.length === 0) {
+    return (
+      <div className='rounded-2xl bg-white p-8 text-gray-700 shadow-lg'>
+        <h2 className='mb-6 text-3xl font-bold'>Recently Stored Items</h2>
+        <p className='text-lg font-medium text-gray-500'>
+          No items found. Please add some items to your inventory.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className='rounded-2xl bg-white p-8 text-gray-700 shadow-lg'>
       <h2 className='mb-6 text-3xl font-bold'>Recently Stored Items</h2>
       <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5'>
-        {recentItems.map(item => (
+        {items.map(item => (
           <Item
-            key={item.id}
-            id={item.id}
-            name={item.name}
+            key={item.item_id}
+            id={item.item_id}
+            name={item.item_name}
             location={item.location}
             organization={item.organization}
           />

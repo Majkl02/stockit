@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import ItemCategory from '../Item/ItemCategory'
 
 export default function AddNewItemReviewForm({
   newItem,
@@ -58,13 +59,15 @@ export default function AddNewItemReviewForm({
           <label className='mb-1 block text-sm font-medium text-gray-700'>
             Categories
           </label>
-          <ul className='rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-800'>
+          <div className='flex gap-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-800'>
             {categoryLabels.length > 0 ? (
-              categoryLabels.map((cat, index) => <li key={index}>{cat}</li>)
+              categoryLabels.map((cat, index) => (
+                <ItemCategory key={index} category={cat} />
+              ))
             ) : (
               <li>No categories selected</li>
             )}
-          </ul>
+          </div>
         </div>
 
         {/* Uploaded Photos */}

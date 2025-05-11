@@ -3,16 +3,25 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/app/context/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import pass_eye_closed from '/public/pass-eye-closed.svg'
 import pass_eye from '/public/pass-eye.svg'
 import logo from '/public/Logo.png'
 
 export default function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { setUser } = useAuth()
   const [errorMessage, setErrorMessage] = useState('')
   const [passwordVisible, setPasswordVisible] = useState(false)
+
+  useEffect(() => {
+    if (searchParams.get('sessionExpired') === 'true') {
+      localStorage.clear()
+      setErrorMessage('Your session has expired. Please log in again.')
+    }
+  }, [searchParams])
 
   // Function to toggle password visibility
   const handleTogglePassword = () => {
@@ -20,7 +29,7 @@ export default function LoginForm() {
   }
 
   // Function to handle form submission
-  async function handleSubmit(e) {
+  async function handleLogin(e) {
     e.preventDefault()
     // Reset error state
     setErrorMessage('')
@@ -75,7 +84,7 @@ export default function LoginForm() {
         </p>
       </div>
       {/* Form part */}
-      <form onSubmit={handleSubmit} className='space-y-4'>
+      <form onSubmit={handleLogin} className='space-y-4'>
         {/* Email field */}
         <label
           htmlFor='email'
@@ -114,7 +123,7 @@ export default function LoginForm() {
           >
             <Image
               src={passwordVisible ? pass_eye_closed : pass_eye}
-              alt='StockIt Logo'
+              alt='password visibility toggle'
             />
           </button>
         </div>

@@ -17,6 +17,52 @@ export default function Stepper({
 
   const router = useRouter()
 
+  const handleItemUpload = async () => {
+    try {
+      setUploading(true)
+      setMessage('Uploading item...')
+
+      const itemRes = await fetch('/api/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItem)
+      })
+
+      if (!itemRes.ok) throw new Error('Failed to create item.')
+
+      const itemData = await itemRes.json()
+      const itemId = itemData.item_id
+
+      for (const [position, file] of Object.entries(attachments)) {
+        if (!file) continue
+
+        const formData = new FormData()
+        formData.append('file', file)
+
+        const uploadRes = await fetch(
+          `/api/attachments/item/${itemId}?type=IMAGE&position=${position.toUpperCase()}`,
+          {
+            method: 'POST',
+            body: formData
+          }
+        )
+
+        if (!uploadRes.ok) {
+          console.error(`Failed to upload ${position} photo`)
+        }
+      }
+
+      setUploading(false)
+      setMessage('')
+      router.push('/addnew?success=true')
+    } catch (error) {
+      console.error('Error uploading item or attachments:', error)
+      setMessage('Failed to upload item. Please try again.')
+    }
+  }
+
   async function goToStep(step) {
     if (step >= 1 && step <= steps.length) {
       if (step === 2 && attachments.front === null) {
@@ -32,50 +78,7 @@ export default function Stepper({
       setMessage('')
       setActiveStep(step)
     } else if (step > steps.length) {
-      try {
-        setUploading(true)
-        setMessage('Uploading item...')
-        // 1. Upload the item
-        const itemRes = await fetch('/api/items', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newItem)
-        })
-
-        if (!itemRes.ok) throw new Error('Failed to create item.')
-
-        const itemData = await itemRes.json()
-        const itemId = itemData.item_id
-
-        // 2. Upload each attachment
-        for (const [position, file] of Object.entries(attachments)) {
-          if (!file) continue
-
-          const formData = new FormData()
-          formData.append('file', file)
-
-          const uploadRes = await fetch(
-            `/api/attachments/item/${itemId}?type=IMAGE&position=${position.toUpperCase()}`,
-            {
-              method: 'POST',
-              body: formData
-            }
-          )
-
-          if (!uploadRes.ok) {
-            console.error(`Failed to upload ${position} photo`)
-          }
-        }
-
-        setUploading(false)
-        setMessage('')
-        router.push('/addnew?success=true')
-      } catch (error) {
-        console.error('Error uploading item or attachments:', error)
-        setMessage('Failed to upload item. Please try again.')
-      }
+      handleItemUpload()
     }
   }
 
@@ -114,7 +117,6 @@ export default function Stepper({
               </div>
             </div>
 
-            {/* Connector Line (except after last step) */}
             {index < steps.length - 1 && (
               <div
                 className={`mx-2 h-1 flex-1 ${step.id < activeStep ? 'bg-sky-600' : 'bg-gray-300'}`}
@@ -133,7 +135,9 @@ export default function Stepper({
           Previous
         </button>
         {message && (
-          <p className='mx-auto mt-2 text-center text-sm font-medium text-red-600'>
+          <p
+            className={`mx-auto mt-2 text-center text-sm font-medium text-${uploading ? 'gay' : 'red'}-600`}
+          >
             {message}
           </p>
         )}

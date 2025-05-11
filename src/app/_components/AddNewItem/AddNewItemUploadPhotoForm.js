@@ -69,7 +69,7 @@ export default function PhotoUploadForm({ attachments, setAttachments }) {
         {renderUploadField('Left-side photo', 'left')}
         {renderUploadField('Right-side photo', 'right')}
         {renderUploadField('Top-side photo', 'top')}
-        {renderUploadField('Bottom-side photo', 'botom')}
+        {renderUploadField('Bottom-side photo', 'bottom')}
       </form>
     </div>
   )
