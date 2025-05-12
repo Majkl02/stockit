@@ -1,40 +1,30 @@
-import './globals.css'
+import { AuthProvider } from './context/AuthContext'
 
-import AddNewItemButton from './components/AddNewItemButton.js'
-import LogInForm from './components/LogInForm.js'
-import Navigation from './components/Navigation'
-import Header from './components/Header'
-import Item from './components/Item'
+import { Inter } from 'next/font/google'
 
+// Application font configuration
+// This font is used in the entire application
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap'
+})
+
+// Main application metadata
 export const metadata = {
   title: 'StockIt',
-  description: 'University Final Project'
+  description: 'University Final Project',
+  icons: {
+    icon: '/favicon.ico'
+  }
 }
 
-let userLoggedIn = true
-
+// Main application layout component
+// This component wraps the entire application and provides global context providers
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className='flex h-screen flex-col'>
-        {userLoggedIn ? (
-          <>
-            <AddNewItemButton />
-            {/* Header */}
-            <Header />
-
-            <div className='flex flex-1'>
-              {/* Sidebar Navigation */}
-              <Navigation />
-              {/* Main Content Area */}
-              <main className='bg-primary flex-1 overflow-auto'>
-                {children}
-              </main>
-            </div>
-          </>
-        ) : (
-          <LogInForm />
-        )}
+      <body className={`${inter.className} flex h-screen flex-col`}>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )
