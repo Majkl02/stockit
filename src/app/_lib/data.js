@@ -1,13 +1,11 @@
 import { headers } from 'next/headers'
-import * as cookie from 'cookie'
+import { cookies } from 'next/headers'
 
 /* GET ALL ITEMS */
 export async function getItems() {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
     // console.log('Token:', token)
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/items`, {
       method: 'GET',
@@ -32,10 +30,9 @@ export async function getItems() {
 /* GET SINGLE ITEM BY ID*/
 export async function getItemById(id) {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/items/${id}`,
       {
@@ -63,10 +60,9 @@ export async function getItemById(id) {
 /* GET ALL ORGANIZATIONS*/
 export async function getOrganizations() {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations`,
       {
@@ -93,10 +89,9 @@ export async function getOrganizations() {
 /* GET SINGLE ORGANIZATION BY ID*/
 export async function getOrganizationById(id) {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations/${id}`,
       {
@@ -109,6 +104,7 @@ export async function getOrganizationById(id) {
     )
 
     if (!res.ok) {
+      console.log('Response:', await res.json())
       throw new Error('Network response was not ok')
     }
 
@@ -123,10 +119,9 @@ export async function getOrganizationById(id) {
 /* GET ALL LOCATIONS*/
 export async function getLocations() {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations`,
       {
@@ -153,10 +148,9 @@ export async function getLocations() {
 /* GET SINGLE LOCATION BY ID*/
 export async function getLocationById(id) {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations/${id}`,
       {
@@ -183,12 +177,40 @@ export async function getLocationById(id) {
 /* GET ALL CATEGORIES*/
 export async function getCategories() {
   try {
-    const asyncHeaders = await headers()
-    const rawCookies = asyncHeaders.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    if (!res.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const data = await res.json()
+    // console.log('Fetched categories:', data)
+    return data
+  } catch (err) {
+    console.error('Fetch error:', err)
+  }
+}
+
+/* GET ALL ATTRIBUTES*/
+export async function getAttributes() {
+  try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/attributes`,
       {
         method: 'GET',
         headers: {

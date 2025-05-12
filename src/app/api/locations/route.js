@@ -1,26 +1,25 @@
 import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import * as cookie from 'cookie'
+import { cookies } from 'next/headers'
 
 export async function GET() {
   try {
-    // Parse cookies from request headers
-    const headerList = await headers()
-    const rawCookies = headerList.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const res = await fetch('http://localhost:8888/api/v1/locations', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/locations`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
       return NextResponse.json(

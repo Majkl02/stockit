@@ -3,9 +3,6 @@ import { decodeJwt } from '@/app/_lib/utils/jwt'
 
 const REFRESH_THRESHOLD = 60 * 5 // 5 minutes
 
-//TODO: Pridat logout vsade kde je redirect na login
-//TODO: Problem ak sa odhlasujem z profilu!!!
-
 export async function middleware(request) {
   const accessToken = request.cookies.get('access_token')?.value
   const refreshToken = request.cookies.get('refresh_token')?.value
@@ -16,7 +13,7 @@ export async function middleware(request) {
   const isLoginPage = pathname === '/login'
   const isApiRoute = pathname.startsWith('/api/')
 
-  // ✅ Allow login and API routes
+  // Allow login and API routes
   if (isLoginPage || isApiRoute) {
     if (isLoginPage && accessToken) {
       return NextResponse.redirect(new URL('/', request.url))
@@ -24,7 +21,7 @@ export async function middleware(request) {
     return NextResponse.next()
   }
 
-  // 🔐 Not authenticated
+  // Not authenticated
   if (!refreshToken) {
     console.warn('Refresh token missing. Triggering logout...')
 
@@ -46,7 +43,7 @@ export async function middleware(request) {
     return response
   }
 
-  // 🧠 Decode token and check expiry
+  // Decode token and check expiration
   const payload = decodeJwt(accessToken)
   const now = Math.floor(Date.now() / 1000)
   const isExpiringSoon = payload?.exp && payload.exp - now < REFRESH_THRESHOLD

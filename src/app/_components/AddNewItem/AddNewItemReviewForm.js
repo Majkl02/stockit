@@ -5,6 +5,7 @@ export default function AddNewItemReviewForm({
   newItem,
   locations,
   categories,
+  attributes,
   attachments
 }) {
   const locationLabel = locations.find(
@@ -14,6 +15,17 @@ export default function AddNewItemReviewForm({
   const categoryLabels = categories
     .filter(cat => newItem.item_categories.includes(cat.id))
     .map(cat => cat.name)
+
+  const attrOptions = attributes.map(attr => ({
+    value: attr.id,
+    label: attr.name
+  }))
+
+  const attributeDetails = newItem.item_attributes.map(attr => ({
+    id: attr.attribute_id,
+    label: attrOptions.find(option => option.value === attr.attribute_id).label,
+    value: attr.value
+  }))
 
   const hasImages = Object.values(attachments).some(file => file !== null)
 
@@ -65,11 +77,27 @@ export default function AddNewItemReviewForm({
                 <ItemCategory key={index} category={cat} />
               ))
             ) : (
-              <li>No categories selected</li>
+              <p>No categories selected</p>
             )}
           </div>
         </div>
-
+        {/* Attributes */}
+        <div>
+          <label className='mb-1 block text-sm font-medium text-gray-700'>
+            Attributes
+          </label>
+          <div className='flex-col gap-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-800'>
+            {attributeDetails.length > 0 ? (
+              attributeDetails.map(attr => (
+                <p key={attr.id} className='text-sm text-gray-600'>
+                  <strong>{attr.label}:</strong> {attr.value}
+                </p>
+              ))
+            ) : (
+              <p>No attributes selected</p>
+            )}
+          </div>
+        </div>
         {/* Uploaded Photos */}
         <div>
           <label className='mb-2 block text-sm font-medium text-gray-700'>

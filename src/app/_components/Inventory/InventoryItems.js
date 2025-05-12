@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import ItemSection from './ItemSection'
 import SearchForm from './SearchForm'
 
-const ITEMS_PER_PAGE = 5 // Number of items per page
+const ITEMS_PER_PAGE = 10 // Number of items per page
 
 export default function InventoryItems({ organizations, locations }) {
   // State variables for items, metadata and parameters
@@ -66,7 +66,7 @@ export default function InventoryItems({ organizations, locations }) {
             const frontImage = item.attachments.find(
               attachment => attachment.position === 'FRONT'
             )
-            console.log('frontImage', frontImage)
+            // console.log('frontImage', frontImage)
             try {
               const response = await fetch(`/api/attachments`, {
                 method: 'POST',

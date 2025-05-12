@@ -8,7 +8,7 @@ import AddNewItemStepper from '@/app/_components/AddNewItem/AddNewItemStepper'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function AddNewItem({ locations, categories }) {
+export default function AddNewItem({ locations, categories, attributes }) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [showSuccess, setShowSuccess] = useState(false)
@@ -70,6 +70,9 @@ export default function AddNewItem({ locations, categories }) {
     bottom: null
   })
 
+  const [attributeDetails, setAttributeDetails] = useState([])
+  const [selectedAttributes, setSelectedAttributes] = useState([])
+
   const steps = [
     { id: 1, label: 'Upload photos' },
     { id: 2, label: 'AI Option' },
@@ -89,6 +92,11 @@ export default function AddNewItem({ locations, categories }) {
       key='item'
       locations={locations}
       categories={categories}
+      attributes={attributes}
+      attributeDetails={attributeDetails}
+      setAttributeDetails={setAttributeDetails}
+      selectedAttributes={selectedAttributes}
+      setSelectedAttributes={setSelectedAttributes}
       newItem={newItemData}
       setNewItem={setNewItemData}
     />,
@@ -97,6 +105,7 @@ export default function AddNewItem({ locations, categories }) {
       newItem={newItemData}
       locations={locations}
       categories={categories}
+      attributes={attributes}
       attachments={attachments}
     />
   ]

@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import Item from '../Item/Item'
 
-export default function DashboardRecentStoredItems() {
+export default function DashboardRecentlyStoredItems() {
   const [items, setItems] = useState([])
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function DashboardRecentStoredItems() {
         )
 
         const items = await response.json()
-        console.log('Recent stored items:', items)
+        console.log('Recently stored items:', items)
         setItems(items.data)
       } catch (error) {
         console.error('Error fetching recent stored items:', error)

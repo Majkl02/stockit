@@ -97,21 +97,27 @@ export default function UserProfileEdit() {
   }
 
   async function updatePassword() {
+    console.log('Updating password with:', passwords)
     try {
       const res = await fetch(`/api/users/${user.user_id}/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(passwords)
+        body: JSON.stringify({
+          old_password: passwords.old_password,
+          new_password: passwords.new_password
+        })
       })
 
       if (!res.ok) {
         const errorData = await res.json()
-        console.error('Error updating password:', errorData)
+        // console.log('Error updating password:', errorData)
+        setPasswordMessage(`Chyba: ${errorData.message}!`)
         return
       }
-      passwordMessage('Password updated successfully!')
+
+      setPasswordMessage('Password updated successfully!')
     } catch (error) {
       console.error('Error updating password:', error)
     }
@@ -355,7 +361,7 @@ export default function UserProfileEdit() {
                   )}
                 </div>
               </div>
-              <span className={`text-sm text-red-500`}>{passwordMessage}</span>
+              <span className={`text-sm text-gray-500`}>{passwordMessage}</span>
               <button type='submit' onClick={handleNewPasswordSubmit}>
                 <span className='flex cursor-pointer items-center gap-1 rounded-md border-2 border-sky-500 bg-white px-4 py-2 text-sm font-medium text-sky-700 shadow-sm hover:bg-sky-50'>
                   <KeyRound className='h-4 w-4' /> Change Password

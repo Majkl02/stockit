@@ -11,7 +11,7 @@ export default async function ItemDetailPage({ params }) {
 
   const item = await getItemById(id)
   console.log('Item detail:', item)
-
+  // console.log('Item detail:', item)
   const [organization, location] = await Promise.all([
     getOrganizationById(item.organization_id),
     getLocationById(item.location_id)

@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import * as cookie from 'cookie'
+import { cookies } from 'next/headers'
 
 export async function GET(_, { params }) {
   const { id } = await params
   try {
-    const headerList = await headers()
-    const rawCookies = headerList.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -47,10 +44,8 @@ export async function PUT(req, { params }) {
   const { id } = params
 
   try {
-    const headerList = await headers()
-    const rawCookies = headerList.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

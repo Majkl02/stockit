@@ -1,10 +1,17 @@
+'use client'
+import { useEffect, useState } from 'react'
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 
 export default function AddNewItemForm({
   locations,
   categories,
+  attributes,
   newItem,
+  attributeDetails,
+  setAttributeDetails,
+  setSelectedAttributes,
+  selectedAttributes,
   setNewItem
 }) {
   const locOptions = locations.map(loc => ({
@@ -16,6 +23,48 @@ export default function AddNewItemForm({
     value: cat.id,
     label: cat.name
   }))
+
+  const attrOptions = attributes.map(attr => ({
+    value: attr.id,
+    label: attr.name
+  }))
+
+  // State to manage individual attribute objects
+
+  useEffect(() => {
+    setNewItem(prev => ({
+      ...prev,
+      item_attributes: attributeDetails.map(attr => ({
+        attribute_id: attr.id,
+        value: attr.value
+      }))
+    }))
+  }, [attributeDetails, setNewItem])
+
+  // Handle adding attributes
+  const handleAttributeChange = selected => {
+    const selectedValues = selected.map(option => option.value)
+    setSelectedAttributes(selectedValues)
+
+    // Sync the state for detailed attribute fields
+    const newDetails = selected.map(option => {
+      const existing = attributeDetails.find(attr => attr.id === option.value)
+      return existing
+        ? existing
+        : { id: option.value, label: option.label, value: '' }
+    })
+    setAttributeDetails(newDetails)
+
+    console.log(newItem)
+  }
+
+  // Handle field changes for value and description
+  const handleFieldChange = (id, field, value) => {
+    const updatedDetails = attributeDetails.map(attr =>
+      attr.id === id ? { ...attr, [field]: value } : attr
+    )
+    setAttributeDetails(updatedDetails)
+  }
 
   return (
     <div className='rounded-2xl border-4 border-sky-700 p-6 shadow-lg shadow-gray-400'>
@@ -112,7 +161,8 @@ export default function AddNewItemForm({
               />
             </div>
           </div>
-          {/* <div>
+
+          <div>
             <label
               htmlFor='attributes'
               className='mb-1 block text-sm font-medium text-gray-700'
@@ -120,22 +170,43 @@ export default function AddNewItemForm({
               Attributes
             </label>
             <div className='flex items-center gap-4'>
-              <select
-                type='input'
-                id='attributes'
-                name='attributes'
-                required
-                className='w-full rounded-md border border-gray-300 px-3 py-2'
-              >
-                <option value='clothing'>Weight</option>
-                <option value='electronics'>Age</option>
-                <option value='furniture'>Color</option>
-              </select>
-              <div className='w-30 cursor-pointer rounded-2xl bg-gray-200 p-2 text-center hover:bg-gray-300'>
-                Add
+              <Select
+                options={attrOptions}
+                isMulti
+                value={attrOptions.filter(attr =>
+                  selectedAttributes.includes(attr.value)
+                )}
+                onChange={handleAttributeChange}
+                className='w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-sky-700 focus:outline-none'
+              />
+            </div>
+          </div>
+          {/* Render Attribute Fields */}
+          {attributeDetails.map(attribute => (
+            <div
+              key={attribute.id}
+              className='mt-4 rounded-md border border-gray-300 p-4'
+            >
+              <h4 className='mb-2 text-lg font-semibold text-gray-700'>
+                {attribute.label}
+              </h4>
+
+              <div className='mb-3'>
+                <label className='block text-sm font-medium text-gray-600'>
+                  Value
+                </label>
+                <input
+                  type='text'
+                  value={attribute.value}
+                  onChange={e =>
+                    handleFieldChange(attribute.id, 'value', e.target.value)
+                  }
+                  className='w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-sky-700 focus:outline-none'
+                  placeholder='Enter value...'
+                />
               </div>
             </div>
-          </div> */}
+          ))}
         </div>
       </form>
     </div>

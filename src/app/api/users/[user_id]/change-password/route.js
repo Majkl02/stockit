@@ -26,16 +26,16 @@ export async function PUT(req, { params }) {
       }
     )
 
-    console.log('Response:', res)
-
-    const data = await res.json()
-
     if (!res.ok) {
-      console.error('Backend error response:', data)
-      return NextResponse.json(data, { status: res.status })
+      const errorResponse = await res.json()
+      console.error('Backend error response:', errorResponse)
+      return NextResponse.json(errorResponse, { status: res.status })
     }
 
-    return NextResponse.json(data)
+    return NextResponse.json({
+      status: 204,
+      message: 'Password updated successfully'
+    })
   } catch (err) {
     console.error(`Error updating password for user ${user_id}:`, err)
     return NextResponse.json(

@@ -1,32 +1,29 @@
 import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import * as cookie from 'cookie'
+import { cookies } from 'next/headers'
 
 export async function GET() {
   try {
-    // Parse cookies from request headers
-    const headerList = await headers()
-    const rawCookies = headerList.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const res = await fetch('http://localhost:8888/api/v1/organizations', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
 
     if (!res.ok) {
-      return NextResponse.json(
-        { error: 'Failed to fetch organizations' },
-        { status: res.status }
-      )
+      const errorResponse = await res.json()
+      return NextResponse.json(errorResponse, { status: res.status })
     }
 
     const data = await res.json()
@@ -35,6 +32,45 @@ export async function GET() {
     console.error('API /organizations error:', err)
     return NextResponse.json(
       { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function POST(req) {
+  try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await req.json()
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+      }
+    )
+
+    if (!res.ok) {
+      const errorResponse = await res.json()
+      return NextResponse.json(errorResponse, { status: res.status })
+    }
+
+    const data = await res.json()
+    return NextResponse.json(data, { status: res.status })
+  } catch (err) {
+    console.error('Error proxying POST to backend:', err)
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
       { status: 500 }
     )
   }

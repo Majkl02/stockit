@@ -1,21 +1,18 @@
 import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import * as cookie from 'cookie'
+import { cookies } from 'next/headers'
 
 export async function GET(_, { params }) {
   const { id } = await params
   try {
-    const headerList = await headers()
-    const rawCookies = headerList.get('cookie') || ''
-    const parsed = cookie.parse(rawCookies)
-    const token = parsed['access_token']
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const res = await fetch(
-      `http://localhost:8888/api/v1/organizations/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations/${id}`,
       {
         method: 'GET',
         headers: {
@@ -36,6 +33,47 @@ export async function GET(_, { params }) {
     return NextResponse.json(data)
   } catch (err) {
     console.error(`Error fetching organization ${id}:`, err)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(_, { params }) {
+  const { id } = await params
+  try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('access_token')?.value
+
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/organizations/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: `Failed to delete organization with ID ${id}` },
+        { status: res.status }
+      )
+    }
+
+    return NextResponse.json({
+      message: 'Organization deleted successfully',
+      status: res.status
+    })
+  } catch (err) {
+    console.error(`Error deleting organization ${id}:`, err)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

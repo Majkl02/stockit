@@ -1,6 +1,6 @@
 import DashboardDateTime from '../_components/Dashboard/DashboardDateTime'
 import DashboardHeader from '../_components/Dashboard/DashboardHeader'
-import DashboardRecentStoredItems from '../_components/Dashboard/DashboardRecentStoredItems'
+import DashboardRecentlyStoredItems from '../_components/Dashboard/DashboardRecentlyStoredItems'
 import DashboardStatistics from '../_components/Dashboard/DashboardStatistics'
 
 export default function Dashboard() {
@@ -11,7 +11,7 @@ export default function Dashboard() {
         <DashboardDateTime />
       </div>
       <DashboardStatistics />
-      <DashboardRecentStoredItems />
+      <DashboardRecentlyStoredItems />
     </div>
   )
 }

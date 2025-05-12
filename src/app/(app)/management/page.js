@@ -9,7 +9,7 @@ export default function Management() {
   ]
 
   return (
-    <div className='mx-auto my-16 max-w-4xl px-4'>
+    <div className='mx-auto my-16 max-w-6xl rounded-2xl bg-white px-20 py-15 shadow-lg'>
       <h1 className='mb-12 text-center text-6xl font-bold text-gray-700'>
         System Management
       </h1>
@@ -25,8 +25,7 @@ export default function Management() {
               Manage {section.name}
             </h2>
             <p className='mt-2 text-center text-sm text-gray-500'>
-              View, create, edit and remove {section.name.toLowerCase()} from
-              the system.
+              View, create, edit and remove {section.name.toLowerCase()}
             </p>
           </Link>
         ))}
